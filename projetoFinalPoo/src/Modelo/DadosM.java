@@ -22,6 +22,7 @@ public class DadosM {
     private Date geral, 
             atual, 
             ajustes;
+    private ProjetoM projeto = new ProjetoM();
 
     public DadosM(String pessoaJuridica, String modeloGestao, String impacto, String risco, String causa, String atividadeTecnologia, int etapa, double medicao, Date geral, Date atual, Date ajustes) {
         this.pessoaJuridica = pessoaJuridica;
@@ -124,5 +125,14 @@ public class DadosM {
     public void setAjustes(Date ajustes) {
         this.ajustes = ajustes;
     }
-    
+
+    public ProjetoM getProjeto() {
+        return projeto;
+    }
+
+    public void setProjeto(ProjetoM projeto) {
+        this.projeto = projeto;
+    }
+
 }
+  
