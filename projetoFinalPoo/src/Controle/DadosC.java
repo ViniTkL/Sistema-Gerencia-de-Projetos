@@ -106,9 +106,64 @@ public class DadosC {
     
 
     public void pagarMedicao(){
+        Scanner scan = new Scanner(System.in);
         
+        String projetoNome;
+        int etapaCompletada = 0;
+        double valorTotal = 0;
+        char satisfacao;
+        
+        System.out.println("A medição a ser paga se refere a qual projeto?: ");
+        projetoNome = scan.nextLine();
+        
+        System.out.println("Qual etapa do projeto foi completa");
+        etapaCompletada = scan.nextInt();
+        
+        System.out.println("Qual o valor cheio a ser paga nesta medição");
+        valorTotal = scan.nextDouble();
+        
+        scan.nextLine();
+        
+        System.out.println("A entrega foi satisfatória[S/N]: ");
+        satisfacao = Character.toUpperCase(scan.nextLine().charAt(0));
+        
+        double valorPagar = valorPagoMedicao(satisfacao, valorTotal);
+        informacoes.setMedicao(valorPagar);
+        
+        System.out.println("ProjetoNome: " + projetoNome +
+                           "etapaCompletada: " + etapaCompletada +
+                           "ValorTotal: " + valorTotal +
+                           "ValoPagar: " + valorPagar);
+        
+        //conexão com o BD para atualizar a etapa como completa e o valor da medicao;
     }
     
+    public double valorPagoMedicao(char satisfacao, double valorTotal){
+        Scanner scan = new Scanner(System.in);
+        
+        switch (satisfacao) {
+            case 'S' -> {
+                informacoes.setMedicao(valorTotal);
+                return valorTotal;
+            }
+            case 'N' -> {
+                System.out.println("Digite o valor que deseja pagar pela etapa completada: ");
+                double valorParcial = scan.nextDouble();
+                do{
+                    if(valorParcial < (valorTotal/3) ){
+                        System.out.println("Valor Inválido, tente novamente: ");
+                        System.out.println("Digite o valor que deseja pagar pela etapa completada: ");
+                        valorParcial = scan.nextDouble();
+                    }
+                }while( valorParcial < (valorTotal/3));
+                return valorParcial;
+            }
+            default -> {
+                System.out.println("Valor inválido");
+            }
+        }
+        return 0.0;
+    }
     
     
     public void menu(){
@@ -117,7 +172,7 @@ public class DadosC {
         int resp = 0;
         while(resp != -1){
             System.out.println("-----------------------MENU-------------------------");
-            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n-1 - Sair\nEscolha: ");
+            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n-1 - Sair\nEscolha: ");
             resp = scan.nextInt();
             
             switch (resp) {
@@ -129,6 +184,9 @@ public class DadosC {
                 }
                 case 3 -> {
                     cadastrarAtvdTecnoProjeto();
+                }
+                case 4 -> {
+                    pagarMedicao();
                 }
                 case -1 -> {
                     System.out.println("saindo...");
