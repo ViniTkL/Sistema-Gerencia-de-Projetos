@@ -5,6 +5,8 @@
 package Controle;
 
 import Modelo.DadosM;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -90,14 +92,15 @@ public class DadosC {
         
         while(!verificaString(atvdTecno)){
             System.out.println("Digite a metodologia utilizada no projeto: ");
+            atvdTecno = scan.nextLine();
         }
         
         informacoes.setAtividadeTecnologia(atvdTecno);                
     }
     
     public boolean verificaString(String texto){
-        if(texto.equals("") || texto == null){
-            System.out.println("Modelo de gestão inválido");
+        if( texto == null || texto.equals("") ){
+            System.out.println("Modelo de gestão inválido, tente novamente");
             return false;
         }
         return true;
@@ -130,9 +133,9 @@ public class DadosC {
         double valorPagar = valorPagoMedicao(satisfacao, valorTotal);
         informacoes.setMedicao(valorPagar);
         
-        System.out.println("ProjetoNome: " + projetoNome +
-                           "etapaCompletada: " + etapaCompletada +
-                           "ValorTotal: " + valorTotal +
+        System.out.println("ProjetoNome: " + projetoNome + "\n" +
+                           "etapaCompletada: " + etapaCompletada + "\n" +
+                           "ValorTotal: " + valorTotal + "\n" +
                            "ValoPagar: " + valorPagar);
         
         //conexão com o BD para atualizar a etapa como completa e o valor da medicao;
@@ -166,13 +169,115 @@ public class DadosC {
     }
     
     
+    
+    public void cadastrarCronograma(){
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.println("Digite a quantidade de etapas que o proejto possui: ");
+        int quantidadeEtapas = scan.nextInt();
+        
+        for(int i = 0; i < quantidadeEtapas; i++ ){
+            inserirInformacoesCronograma();
+        }
+        //for com o nome da etapa
+        //for com o que será feito na etapa
+        //for com a data de inicio e fim da etapa
+    }
+    
+    public void inserirInformacoesCronograma(){
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.println("Digite o número da etapa: ");
+        int numEtapa = scan.nextInt();
+        
+        scan.nextLine();
+        
+        System.out.println("Digite o nome da etapa" + numEtapa + ": ");
+        String nomeEtapa = scan.nextLine();
+        
+        System.out.println("Digite oque será feito na etapa" + numEtapa + ": ");
+        String descricaoEtapa = scan.nextLine();
+        
+        System.out.println("Digite a data de início da etapa" + numEtapa + ": ");
+        LocalDate dataInicio = converteStringParaData( scan.nextLine() );
+        
+        System.out.println("Digite a data de conclusão da etapa" + numEtapa + ": ");
+        LocalDate dataFinal =  converteStringParaData(scan.nextLine());
+        
+        verificaDatasEtapa(dataInicio, dataFinal);
+        System.out.println("Data Inicio" + dataInicio + "\nData Final:" + dataFinal);
+        
+        
+        //mandar para o banco de dados :)
+    }
+    
+    public void verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
+        if( dateFinal.getYear() < dateInicio.getYear() || dateFinal.getMonthValue() < dateInicio.getMonthValue() ){
+            System.out.println("Datas da etapa Inválidas");
+        }
+    }
+   
+    
+    
+    public void ajustarCronograma(){
+        Scanner scan = new Scanner(System.in);
+        
+        System.out.println("Qual projeto terá o cronograma ajustado: ");
+        String nomeProjeto = scan.nextLine();
+        
+        System.out.println("Qual etapa do projeto será alterada: ");
+        int etapa = scan.nextInt();
+        
+        scan.nextLine();
+        
+        System.out.println("Digite o risco do ajuste feito: ");
+        String riscoAlteracao = scan.nextLine();
+        
+        System.out.println("Digite o impacto que esse ajuste causará no projeto: ");
+        String impactoAlteracao = scan.nextLine();
+        //Fazer o motivo ser sempre diferente de vazio
+        System.out.println("Digite a motivação do ajuste no cronograma: ");
+        String motivoAlteracao = scan.nextLine(); 
+        
+        System.out.println("Digite a nova data final desta etapa: ");
+        LocalDate dataAjustada = converteStringParaData(scan.nextLine());
+        
+        informacoes.setEtapa(etapa);
+        informacoes.setImpacto(impactoAlteracao);
+        informacoes.setRisco(riscoAlteracao);
+        informacoes.setCausa(motivoAlteracao);
+        informacoes.setAjustes(dataAjustada);
+        informacoes.setNomeEtapa(nomeProjeto);
+        
+        //mandar para o banco de dados
+    }
+    
+    public LocalDate converteStringParaData(String dataStr){
+        LocalDate data = null;
+        
+        try{
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        data = LocalDate.parse(dataStr, formato);
+        
+        System.out.println(data);
+        
+        }catch(Exception e){ 
+            e.printStackTrace();
+        }
+        
+        return data;
+    }
+    
+    
+    
+    
     public void menu(){
         Scanner scan = new Scanner(System.in);
                 
         int resp = 0;
         while(resp != -1){
             System.out.println("-----------------------MENU-------------------------");
-            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n-1 - Sair\nEscolha: ");
+            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n5 - Cadastrar cronograma\n6 - Alterar cronograma\n-1 - Sair\nEscolha: ");
             resp = scan.nextInt();
             
             switch (resp) {
@@ -187,6 +292,12 @@ public class DadosC {
                 }
                 case 4 -> {
                     pagarMedicao();
+                }
+                case 5 ->{
+                    cadastrarCronograma();
+                }
+                case 6 ->{
+                    ajustarCronograma();
                 }
                 case -1 -> {
                     System.out.println("saindo...");

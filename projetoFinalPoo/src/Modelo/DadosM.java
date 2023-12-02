@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -16,31 +17,34 @@ public class DadosM {
             impacto,
             risco,
             causa,
-            atividadeTecnologia;
+            atividadeTecnologia,
+            nomeEtapa;
     private int etapa;
     private double medicao;
-    private Date geral, 
+    private LocalDate geral, 
             atual, 
             ajustes;
     private ProjetoM projeto = new ProjetoM();
 
     public DadosM() {
-    
     }
-    
-    public DadosM(String pessoaJuridica, String modeloGestao, String impacto, String risco, String causa, String atividadeTecnologia, int etapa, double medicao, Date geral, Date atual, Date ajustes) {
+
+    public DadosM(String pessoaJuridica, String modeloGestao, String impacto, String risco, String causa, String atividadeTecnologia, String nomeEtapa, int etapa, double medicao, LocalDate geral, LocalDate atual, LocalDate ajustes) {
         this.pessoaJuridica = pessoaJuridica;
         this.modeloGestao = modeloGestao;
         this.impacto = impacto;
         this.risco = risco;
         this.causa = causa;
         this.atividadeTecnologia = atividadeTecnologia;
+        this.nomeEtapa = nomeEtapa;
         this.etapa = etapa;
         this.medicao = medicao;
         this.geral = geral;
         this.atual = atual;
         this.ajustes = ajustes;
     }
+
+    
 
     public String getPessoaJuridica() {
         return pessoaJuridica;
@@ -106,27 +110,27 @@ public class DadosM {
         this.medicao = medicao;
     }
 
-    public Date getGeral() {
+    public LocalDate getGeral() {
         return geral;
     }
 
-    public void setGeral(Date geral) {
+    public void setGeral(LocalDate geral) {
         this.geral = geral;
     }
 
-    public Date getAtual() {
+    public LocalDate getAtual() {
         return atual;
     }
 
-    public void setAtual(Date atual) {
+    public void setAtual(LocalDate atual) {
         this.atual = atual;
     }
 
-    public Date getAjustes() {
+    public LocalDate getAjustes() {
         return ajustes;
     }
 
-    public void setAjustes(Date ajustes) {
+    public void setAjustes(LocalDate ajustes) {
         this.ajustes = ajustes;
     }
 
@@ -138,5 +142,13 @@ public class DadosM {
         this.projeto = projeto;
     }
 
+    public String getNomeEtapa() {
+        return nomeEtapa;
+    }
+
+    public void setNomeEtapa(String nomeEtapa) {
+        this.nomeEtapa = nomeEtapa;
+    }
+   
 }
   
