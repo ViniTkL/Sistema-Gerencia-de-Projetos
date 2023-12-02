@@ -24,6 +24,10 @@ public class DadosM {
             ajustes;
     private ProjetoM projeto = new ProjetoM();
 
+    public DadosM() {
+    
+    }
+    
     public DadosM(String pessoaJuridica, String modeloGestao, String impacto, String risco, String causa, String atividadeTecnologia, int etapa, double medicao, Date geral, Date atual, Date ajustes) {
         this.pessoaJuridica = pessoaJuridica;
         this.modeloGestao = modeloGestao;
