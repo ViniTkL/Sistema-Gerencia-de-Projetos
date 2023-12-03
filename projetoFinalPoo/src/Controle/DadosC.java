@@ -78,11 +78,13 @@ public class DadosC {
         int quantidade =  scan.nextInt();
         
         for(int i = 0; i < quantidade; i++){
-            adicionarAtvdTecno();
+            informacoes.setAtividadeTecnologia(adicionarAtvdTecno()); 
+            
+            //mandar para o banco de dados 
         }
     }
     
-    public void adicionarAtvdTecno(){
+    public String adicionarAtvdTecno(){
         Scanner scan = new Scanner(System.in);
         
         String atvdTecno;
@@ -95,7 +97,7 @@ public class DadosC {
             atvdTecno = scan.nextLine();
         }
         
-        informacoes.setAtividadeTecnologia(atvdTecno);                
+        return atvdTecno;                
     }
     
     public boolean verificaString(String texto){
@@ -116,27 +118,26 @@ public class DadosC {
         double valorTotal = 0;
         char satisfacao;
         
-        System.out.println("A medição a ser paga se refere a qual projeto?: ");
+        System.out.println("Digite o nome do projeto que terá a medição paga: ");
         projetoNome = scan.nextLine();
         
-        System.out.println("Qual etapa do projeto foi completa");
+        System.out.println("Qual etapa do projeto foi completa?: ");
         etapaCompletada = scan.nextInt();
         
-        System.out.println("Qual o valor cheio a ser paga nesta medição");
+        System.out.println("Qual o valor cheio a ser paga nesta medição?: ");
         valorTotal = scan.nextDouble();
         
         scan.nextLine();
         
-        System.out.println("A entrega foi satisfatória[S/N]: ");
+        System.out.println("A entrega foi satisfatória?[S/N]: ");
         satisfacao = Character.toUpperCase(scan.nextLine().charAt(0));
         
-        double valorPagar = valorPagoMedicao(satisfacao, valorTotal);
-        informacoes.setMedicao(valorPagar);
+        informacoes.setMedicao(valorPagoMedicao(satisfacao, valorTotal));
         
         System.out.println("ProjetoNome: " + projetoNome + "\n" +
                            "etapaCompletada: " + etapaCompletada + "\n" +
                            "ValorTotal: " + valorTotal + "\n" +
-                           "ValoPagar: " + valorPagar);
+                           "ValoPagar: " +  informacoes.getMedicao());
         
         //conexão com o BD para atualizar a etapa como completa e o valor da medicao;
     }
@@ -153,19 +154,23 @@ public class DadosC {
                 System.out.println("Digite o valor que deseja pagar pela etapa completada: ");
                 double valorParcial = scan.nextDouble();
                 do{
-                    if(valorParcial < (valorTotal/3) ){
+                    if( valorParcial < (valorTotal/3) || valorParcial > valorTotal ){
                         System.out.println("Valor Inválido, tente novamente: ");
                         System.out.println("Digite o valor que deseja pagar pela etapa completada: ");
                         valorParcial = scan.nextDouble();
                     }
-                }while( valorParcial < (valorTotal/3));
+                }while( valorParcial < (valorTotal/3) || valorParcial > valorTotal );
                 return valorParcial;
             }
             default -> {
-                System.out.println("Valor inválido");
+                System.out.println("Valor inválido sobre satisfação, digite novamente");
             }
         }
-        return 0.0;
+       
+        System.out.println("A entrega foi satisfatória[S/N]: ");
+        satisfacao = Character.toUpperCase(scan.nextLine().charAt(0));
+               
+        return valorPagoMedicao(satisfacao, valorTotal);
     }
     
     
@@ -192,29 +197,38 @@ public class DadosC {
         
         scan.nextLine();
         
-        System.out.println("Digite o nome da etapa" + numEtapa + ": ");
+        System.out.println("Digite o nome da etapa " + numEtapa + ": ");
         String nomeEtapa = scan.nextLine();
         
-        System.out.println("Digite oque será feito na etapa" + numEtapa + ": ");
+        System.out.println("Digite oque será feito na etapa " + numEtapa + ": ");
         String descricaoEtapa = scan.nextLine();
         
-        System.out.println("Digite a data de início da etapa" + numEtapa + ": ");
+        System.out.println("Digite a data de início da etapa " + numEtapa + ": ");
         LocalDate dataInicio = converteStringParaData( scan.nextLine() );
         
-        System.out.println("Digite a data de conclusão da etapa" + numEtapa + ": ");
+        System.out.println("Digite a data de conclusão da etapa " + numEtapa + ": ");
         LocalDate dataFinal =  converteStringParaData(scan.nextLine());
         
-        verificaDatasEtapa(dataInicio, dataFinal);
-        System.out.println("Data Inicio" + dataInicio + "\nData Final:" + dataFinal);
+        while( !verificaDatasEtapa(dataInicio, dataFinal) ){
+            System.out.println("Digite a data de início da etapa " + numEtapa + ": ");
+            dataInicio = converteStringParaData( scan.nextLine() );
+        
+            System.out.println("Digite a data de conclusão da etapa " + numEtapa + ": ");
+            dataFinal =  converteStringParaData(scan.nextLine());
+        }
+        
         
         
         //mandar para o banco de dados :)
     }
     
-    public void verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
+    public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
         if( dateFinal.getYear() < dateInicio.getYear() || dateFinal.getMonthValue() < dateInicio.getMonthValue() ){
             System.out.println("Datas da etapa Inválidas");
+            return false;
         }
+        
+        return true;
     }
    
     
@@ -245,9 +259,16 @@ public class DadosC {
         informacoes.setEtapa(etapa);
         informacoes.setImpacto(impactoAlteracao);
         informacoes.setRisco(riscoAlteracao);
-        informacoes.setCausa(motivoAlteracao);
         informacoes.setAjustes(dataAjustada);
         informacoes.setNomeEtapa(nomeProjeto);
+
+        while( motivoAlteracao.length() < 50){
+            System.out.println("Motivo de alteração inválido: deve ter no mínimo 50 caracteres.\nDigite novamente a motivação do ajuste no cronograma: ");
+            motivoAlteracao = scan.nextLine(); 
+        }
+            
+
+        informacoes.setCausa(motivoAlteracao);
         
         //mandar para o banco de dados
     }
