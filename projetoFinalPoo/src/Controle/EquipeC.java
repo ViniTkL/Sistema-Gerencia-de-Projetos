@@ -28,11 +28,11 @@ public class EquipeC {
             System.out.println("Informe os responsáveis pela etapa (separados por vírgula): ");
             String responsaveisEtapa = leitor.nextLine();
 
-            System.out.println("Informe a data de início da etapa (no formato YYYY-MM-DD): ");
+            System.out.println("Informe a data de início da etapa (no formato DD-MM-YYY): ");
             String inicioEtapaStr = leitor.nextLine();
             LocalDate inicioEtapa = LocalDate.parse(inicioEtapaStr);
             
-            System.out.println("Informe a data de fim da etapa (no formato YYYY-MM-DD): ");
+            System.out.println("Informe a data de fim da etapa (no formato DD-MM-YYY): ");
             String fimEtapaStr = leitor.nextLine();
             LocalDate fimEtapa = LocalDate.parse(fimEtapaStr);
             
