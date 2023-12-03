@@ -2,6 +2,7 @@
 
 package Modelo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -12,10 +13,12 @@ public class EquipeExecM extends EquipeM{
     
     private String cargoEmpresa;
 
-    public EquipeExecM(String cargoEmpresa, String Integrantes, String ResponsavelGeral, String ResponsaveisEtapa, Date inicioEtapa, Date fimEtapa, int Etapa) {
+    public EquipeExecM(String cargoEmpresa, String Integrantes, String ResponsavelGeral, String ResponsaveisEtapa, LocalDate inicioEtapa, LocalDate fimEtapa, int Etapa) {
         super(Integrantes, ResponsavelGeral, ResponsaveisEtapa, inicioEtapa, fimEtapa, Etapa);
         this.cargoEmpresa = cargoEmpresa;
     }
+
+    
 
     public String getCargoEmpresa() {
         return cargoEmpresa;

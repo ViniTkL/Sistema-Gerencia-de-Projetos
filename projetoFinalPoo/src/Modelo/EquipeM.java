@@ -1,6 +1,7 @@
 
 package Modelo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -9,11 +10,11 @@ public class EquipeM {
     private String Integrantes;
     private String ResponsavelGeral;
     private String ResponsaveisEtapa;
-    private Date inicioEtapa;
-    private Date fimEtapa;
+    private LocalDate inicioEtapa;
+    private LocalDate fimEtapa;
     private int Etapa;
 
-    public EquipeM(String Integrantes, String ResponsavelGeral, String ResponsaveisEtapa, Date inicioEtapa, Date fimEtapa, int Etapa) {
+    public EquipeM(String Integrantes, String ResponsavelGeral, String ResponsaveisEtapa, LocalDate inicioEtapa, LocalDate fimEtapa, int Etapa) {
         this.Integrantes = Integrantes;
         this.ResponsavelGeral = ResponsavelGeral;
         this.ResponsaveisEtapa = ResponsaveisEtapa;
@@ -46,19 +47,19 @@ public class EquipeM {
         this.ResponsaveisEtapa = ResponsaveisEtapa;
     }
 
-    public Date getInicioEtapa() {
+    public LocalDate getInicioEtapa() {
         return inicioEtapa;
     }
 
-    public void setInicioEtapa(Date inicioEtapa) {
+    public void setInicioEtapa(LocalDate inicioEtapa) {
         this.inicioEtapa = inicioEtapa;
     }
 
-    public Date getFimEtapa() {
+    public LocalDate getFimEtapa() {
         return fimEtapa;
     }
 
-    public void setFimEtapa(Date fimEtapa) {
+    public void setFimEtapa(LocalDate fimEtapa) {
         this.fimEtapa = fimEtapa;
     }
 
