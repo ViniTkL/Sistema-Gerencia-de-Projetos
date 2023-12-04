@@ -5,7 +5,11 @@ package Modelo;
 import java.time.LocalDate;
 import java.util.Date;
 
-
+/** A classe a seguir é o modelo filho de EquipeM que representa a equipe terceirizada.
+ * Possui todas as variáveis de EquipeM.
+ * empresa: String que representa de que empresa terceirizada o funcionário veio.
+ * Métodos: Construtores com e sem passagem de paramêtros, Getters e setter de todas as variáveis.
+ */
 public class EquipeTerceirizadoM extends EquipeM{
     
     private String empresa;

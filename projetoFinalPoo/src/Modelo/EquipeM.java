@@ -4,7 +4,15 @@ package Modelo;
 import java.time.LocalDate;
 import java.util.Date;
 
-
+/** A classe a seguir é o modelo base das quipes contidas no projeto.
+ * Integrantes: String que representa o nome do projeto.
+ * ResponsavelGeral:  String que representa o modelo de gestão que a empresa está utilizando neste projeto.
+ * ResponsaveisEtapa: String que representa o impacto da mudança feita no cronograma geral.
+ * etapa: int que representa o número da etapa do projeto. Ex.: etapa 4.
+ * inicioEtapa: LocalDate que representa o cronograma geral.
+ * fimEtapa: LocalDate que representa o cronograma atual.
+ * Métodos: Construtores com e sem passagem de paramêtros, Getters e setter de todas as variáveis.
+ */
 public class EquipeM {
    
     private String Integrantes;

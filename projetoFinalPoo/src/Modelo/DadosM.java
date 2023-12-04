@@ -1,15 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-/**
- *
- * @author vinim
+
+/** A classe a seguir é o modelo das informações contidas no projeto.
+ * pessoaJuridica: String que representa o cnpj da empresa responsável pelo projeto.
+ * modeloGestao:  String que representa o modelo de gestão que a empresa está utilizando neste projeto.
+ * impacto: String que representa o impacto da mudança feita no cronograma geral.
+ * risco:  String que representa o risco que a mudança no cronograma geral têm.
+ * causa:  String que representa a causa/motivo da mudança no cronograma geral.
+ * atividadeTecnologia:  String que representa a(s) tecnologias e atividades empregradas no projeto.
+ * nomeEtapa: String que representa o nome das etapas do projeto.
+ * etapa: int que representa o número da etapa do projeto. Ex.: etapa 4 - nome etapa.
+ * medicao: double que representa o valor pago na medição de determinada etapa do porjeto.
+ * geral: LocalDate que representa o cronograma geral.
+ * atual: LocalDate que representa o cronograma atual.
+ * ajustes:  LocalDate que representa o ajuste do cronograma.
+ * projeto: Objeto que representa as informações relacionadas a um projeto específico.
+ * Métodos: Construtores com e sem passagem de paramêtros, Getters e setter de todas as variáveis.
  */
 public class DadosM {
     private String pessoaJuridica,

@@ -4,7 +4,11 @@ package Modelo;
 import java.time.LocalDate;
 import java.util.Date;
 
-
+/**  A classe a seguir é o modelo filho de EquipeM que representa a equipe de gerenciamento do projeto.
+ * Possui todas as variáveis de EquipeM.
+ * cargoProjeto: String que representa o cargo no projeto de determinado integrante.
+ * Métodos: Construtores com e sem passagem de paramêtros, Getters e setter de todas as variáveis.
+ */
 public class EquipeProjetoM extends EquipeM{
    
     private String cargoProjeto;
