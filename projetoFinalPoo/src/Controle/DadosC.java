@@ -5,6 +5,8 @@
 package Controle;
 
 import Modelo.DadosM;
+import controle.BancoDados;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -17,14 +19,29 @@ import java.util.Scanner;
 //DEPOIS TEM QUE FAZER A DOCUMENTAÇÃO DA CLASSE
 public class DadosC {
     DadosM informacoes = new DadosM();
-
+    private BancoDados bd = new BancoDados();  
+    private ResultSet rSet;
+   
     public DadosC() {
     
+    }
+    
+    public void cadastroDadosGerais(){
+        cadastraCNPJ();
+        adicionarModeloGestao();
+        cadastrarAtvdTecnoProjeto();
+        
+        System.out.println(informacoes.getPessoaJuridica() + "\n" +informacoes.getModeloGestao() + "\n" + informacoes.getAtividadeTecnologia() + "\n" + informacoes.getProjeto().getNomeProjeto());
+        
+        salvarDadosGerais(informacoes);
     }
     
     public void cadastraCNPJ(){
         Scanner scan = new Scanner(System.in);
         String cnpj = null;
+        
+        System.out.println("Digite o nome do projeto: ");
+        informacoes.getProjeto().setNomeProjeto(scan.nextLine().toUpperCase());
         
         System.out.println("Digite o CNPJ da empresa responável pelo projeto: ");
         cnpj = removeCaracteresEspeciais(scan.nextLine());
@@ -78,9 +95,11 @@ public class DadosC {
         int quantidade =  scan.nextInt();
         
         for(int i = 0; i < quantidade; i++){
-            informacoes.setAtividadeTecnologia(adicionarAtvdTecno()); 
-            
-            //mandar para o banco de dados 
+           
+            if(i > 0)
+                informacoes.setAtividadeTecnologia(informacoes.getAtividadeTecnologia() + ", " + adicionarAtvdTecno()); 
+            else
+                informacoes.setAtividadeTecnologia(adicionarAtvdTecno());           
         }
     }
     
@@ -102,12 +121,27 @@ public class DadosC {
     
     public boolean verificaString(String texto){
         if( texto == null || texto.equals("") ){
-            System.out.println("Modelo de gestão inválido, tente novamente");
+            System.out.println("Digitação inválida, tente novamente");
             return false;
         }
         return true;
     }
     
+    
+    
+    public void salvarDadosGerais(DadosM infosGerais){
+        try{
+            bd.conexao();
+            String sql="insert into dadosGerais values('"+ infosGerais.getPessoaJuridica()+"', '"+ infosGerais.getModeloGestao() + "', '" + infosGerais.getProjeto().getNomeProjeto() + "', '" + infosGerais.getAtividadeTecnologia()+"')" ;
+            bd.getStatement().execute(sql);
+            
+            bd.desconecta();
+        }catch(Exception e){
+            System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
+        }
+        
+    }
+  
     
 
     public void pagarMedicao(){
@@ -319,6 +353,13 @@ public class DadosC {
                 }
                 case 6 ->{
                     ajustarCronograma();
+                }
+                case 7 ->{
+                    ProjetoC projeto = new ProjetoC();
+                    projeto.cadastrarProjeto();
+                }
+                case 8 ->{
+                    cadastroDadosGerais();
                 }
                 case -1 -> {
                     System.out.println("saindo...");
