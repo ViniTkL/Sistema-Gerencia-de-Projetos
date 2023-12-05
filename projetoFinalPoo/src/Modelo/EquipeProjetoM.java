@@ -19,7 +19,7 @@ public class EquipeProjetoM extends EquipeM{
     }
 
   
-    
+
     /**Método que resgata o cargo do integrante
      * @return String
      */

@@ -409,6 +409,11 @@ public class DadosC {
                 case 8 ->{
                     cadastroDadosGerais();
                 }
+                case 9 ->{
+                    EquipeProjetoC equipe = new EquipeProjetoC();
+                    equipe.cadastrarEquipe();
+                    equipe.cadastrarIntegrante();
+                }
                 case -1 -> {
                     System.out.println("saindo...");
                 }

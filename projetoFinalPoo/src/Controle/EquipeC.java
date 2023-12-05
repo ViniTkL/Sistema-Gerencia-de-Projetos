@@ -1,13 +1,48 @@
 
 package Controle;
 
+import Modelo.EquipeExecM;
 import Modelo.EquipeM;
+import Modelo.EquipeProjetoM;
+import Modelo.EquipeTerceirizadoM;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class EquipeC {
+    
+
+    public void cadastrarEquipe(){
+        Scanner leitor = new Scanner(System.in);
+        
+        System.out.println("Informe o projeto que a equipe está participando: ");
+        String nomeProjeto = leitor.nextLine();
+        
+        System.out.println("Informe o responsável geral da equipe: ");
+        String responsavelGeral = leitor.nextLine();
+        
+        //mandar para o BD
+        
+    }
+    //este métodod n vai ter nada aq porém as classes filhas vão utilizar
+    public void cadastrarIntegrante(){ }
+    
+    public void adicionarIntegrantes(int qtde, int id){ }
+    
+    public void cadastrarResponsaveisEtapa(char eResponsavelEtapa){}
+     
+    public void salvarEquipe(int id, String respGeral){}
+    
+    public void salvarEquipeIntegrante(int id, String nomeIntegrante){}
+    
+    public void salvarEquipeProjeto(int id, String nomeProjeto){}
+    
+    public void salvarIntegrantes(char eResponsavelEtapa, EquipeProjetoM equipe){}
+    
+    public void salvarIntegrantes(char eResponsavelEtapa, EquipeExecM equipe){}
+    
+    public void salvarIntegrantes(char eResponsavelEtapa, EquipeTerceirizadoM equipe){}
+    
     public static void main(String[] args) {
         
         Scanner leitor = new Scanner(System.in);

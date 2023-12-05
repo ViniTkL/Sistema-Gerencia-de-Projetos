@@ -62,7 +62,7 @@ public class ProjetoC {
        try{
            bd.conexao();
            String sql = "insert into projetos(nomeProjeto, escopo, qtdeStakeholders, custoOrcado, custoAprovado) "
-                   + "values('" + projeto.getNomeProjeto() + "', '"+ projeto.getEscopo() + "', " + qtde + ", " + projeto.getCustoOrcado() + ", " + projeto.getCustoAprovado()+")" ;
+                   + "values('" + projeto.getNomeProjeto() + "', '"+ projeto.getEscopo() + "', " + qtde + ", " + projeto.getCustoOrcado() + ", " + projeto.getCustoAprovado()+ ")" ;
        
            bd.getStatement().execute(sql);
            

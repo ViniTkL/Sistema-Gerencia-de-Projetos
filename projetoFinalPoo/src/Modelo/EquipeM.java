@@ -30,6 +30,10 @@ public class EquipeM {
         this.fimEtapa = fimEtapa;
         this.Etapa = Etapa;
     }
+
+    public EquipeM() {
+    }
+    
     /**método que resgata o integrantes da equipe
      * @return String
      */
