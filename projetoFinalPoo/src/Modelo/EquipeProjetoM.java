@@ -20,11 +20,15 @@ public class EquipeProjetoM extends EquipeM{
 
   
     
-
+    /**Método que resgata o cargo do integrante
+     * @return String
+     */
     public String getCargoProjeto() {
         return cargoProjeto;
     }
-
+    /**Método que adiciona o cargo do integrante
+     * @param cargoProjeto 
+     */
     public void setCargoProjeto(String cargoProjeto) {
         this.cargoProjeto = cargoProjeto;
     }

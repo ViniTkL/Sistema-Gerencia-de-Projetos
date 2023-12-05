@@ -30,51 +30,75 @@ public class EquipeM {
         this.fimEtapa = fimEtapa;
         this.Etapa = Etapa;
     }
-
+    /**método que resgata o integrantes da equipe
+     * @return String
+     */
     public String getIntegrantes() {
         return Integrantes;
     }
-
+    /**Método que adiciona os integrantes da equipe
+     * @param Integrantes 
+     */
     public void setIntegrantes(String Integrantes) {
         this.Integrantes = Integrantes;
     }
-
+    /** Método que adiciona o responsável geral da equipe
+     * @return String
+     */
     public String getResponsavelGeral() {
         return ResponsavelGeral;
     }
-
+    /** Método que adiciona o responsável geral da equipe
+     * @param ResponsavelGeral 
+     */
     public void setResponsavelGeral(String ResponsavelGeral) {
         this.ResponsavelGeral = ResponsavelGeral;
     }
-
+    /**Método que resgata os responsáveis por cada etapa do projeto
+     * @return String
+     */
     public String getResponsaveisEtapa() {
         return ResponsaveisEtapa;
     }
-
+    /**Método que adiciona os responsáveis por cada etapa do projeto
+     * @param ResponsaveisEtapa 
+     */
     public void setResponsaveisEtapa(String ResponsaveisEtapa) {
         this.ResponsaveisEtapa = ResponsaveisEtapa;
     }
-
+    /**Método que resgata o inicio da etapa
+     * @return LocalData
+     */
     public LocalDate getInicioEtapa() {
         return inicioEtapa;
     }
-
+    /**Método que adiciona o inicio da etapa
+     * @param inicioEtapa 
+     */
     public void setInicioEtapa(LocalDate inicioEtapa) {
         this.inicioEtapa = inicioEtapa;
     }
-
+    /**Método que resgata o fim da etapa
+     * @return LocalDate
+     */
     public LocalDate getFimEtapa() {
         return fimEtapa;
     }
-
+    /**Método que adiciona o fim da etapa
+     * @param fimEtapa 
+     */
     public void setFimEtapa(LocalDate fimEtapa) {
         this.fimEtapa = fimEtapa;
     }
-
+    /**Método que resgata a etapa do projeto
+     * @return int
+     */
     public int getEtapa() {
         return Etapa;
     }
-
+    /** Método que adiciona a etapa do projeto
+     * @param Etapa 
+     */
     public void setEtapa(int Etapa) {
         this.Etapa = Etapa;
     }

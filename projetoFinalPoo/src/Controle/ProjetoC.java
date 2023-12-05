@@ -19,7 +19,7 @@ public class ProjetoC {
     
     private BancoDados bd = new BancoDados();  
     private ResultSet rSet;
-   
+   //cadastra um projeto, pegando todas as informaçõe do usuário e salva no banco de dados
     public void cadastrarProjeto(){
         projetoInfo = new ProjetoM();
        
@@ -45,7 +45,7 @@ public class ProjetoC {
         
         adicionarStakeholders(projetoInfo, qtde);
    }
-   
+   //função para adicionar vários stakeholder e salvar eles no banco de dados em duas tabelas diferentes
    public void adicionarStakeholders(ProjetoM projeto, int qtde){
         Scanner scan = new Scanner(System.in);
       
@@ -57,7 +57,7 @@ public class ProjetoC {
             salvarProjetoStakeholders(projeto);
         }
    } 
-   
+   //salva o projeto no banco de dados
    public void salvarProjeto(ProjetoM projeto, int qtde){
        try{
            bd.conexao();
@@ -71,7 +71,7 @@ public class ProjetoC {
            System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
        }
    }
-    
+   //salva os stakeholders no banco de dados 
    public void salvarStakeholders(ProjetoM projeto){
        try{
            bd.conexao();
@@ -86,7 +86,7 @@ public class ProjetoC {
            e.printStackTrace();
        }
    }
-   
+   //salva os stakeholder e os projetos em que eles estão participando em uma única tabela
    public void salvarProjetoStakeholders(ProjetoM projeto){
        int id  = pegarIdStakeholder(projeto.getStakeholders());
        
@@ -103,7 +103,7 @@ public class ProjetoC {
            e.printStackTrace();
        }
    }
-   
+   //pega e retorna o id do stakeholder através do nome dele
    public int pegarIdStakeholder(String nomeStakeholder){
       int id = 0;
        try{

@@ -20,11 +20,15 @@ public class EquipeTerceirizadoM extends EquipeM{
     }
 
    
-
+    /**Método que resgata de qual empresa terceirizada o integrante veio
+     * @return String
+     */
     public String getEmpresa() {
         return empresa;
     }
-
+    /**Método que adiciona de qual empresa terceirizada o integrante veio
+     * @param empresa 
+     */
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }

@@ -19,11 +19,15 @@ public class EquipeExecM extends EquipeM{
         this.cargoEmpresa = cargoEmpresa;
     }
 
-    
+    /**Método que resgata o cargo do integrante dentro a empresa
+     * @return String
+     */
     public String getCargoEmpresa() {
         return cargoEmpresa;
     }
-
+    /**Método que adiciona o cargo do integrante dentro a empresa  
+     * @param cargoEmpresa 
+     */
     public void setCargoEmpresa(String cargoEmpresa) {
         this.cargoEmpresa = cargoEmpresa;
     }

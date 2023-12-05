@@ -16,7 +16,7 @@ import java.util.Scanner;
  * @author vinim
  */
 
-//DEPOIS TEM QUE FAZER A DOCUMENTAÇÃO DA CLASSE
+//DEPOIS TEM QUE FAZER A DOCUMENTAÇÃO DA CLASSE E DAS FUNÇÕES
 public class DadosC {
     DadosM informacoes = new DadosM();
     private BancoDados bd = new BancoDados();  
@@ -25,7 +25,7 @@ public class DadosC {
     public DadosC() {
     
     }
-    
+    //Cadastra o cnpj, modelo de gestão e atividades do projeto e manda para o banco de dados
     public void cadastroDadosGerais(){
         cadastraCNPJ();
         adicionarModeloGestao();
@@ -35,7 +35,7 @@ public class DadosC {
         
         salvarDadosGerais(informacoes);
     }
-    
+    //pegar o nome do projeto e o cpnj da empresa
     public void cadastraCNPJ(){
         Scanner scan = new Scanner(System.in);
         String cnpj = null;
@@ -54,11 +54,11 @@ public class DadosC {
         informacoes.setPessoaJuridica(cnpj);
         
     }
-    
+    //remove tudo que não for letras ou numeros da string
     public String removeCaracteresEspeciais(String texto){
         return texto.replaceAll("[^0-9]+","");
     }
-    
+    //verifica se o tamanho do cnpj está correto
     public boolean verficaCnpj(String cnpj){
         if(cnpj.length() != 14){
             System.out.println("CNPJ INVÁLIDO, TENTE NOVAMENTE: ");
@@ -68,7 +68,7 @@ public class DadosC {
     }
     
     
-    
+    //adiciona o modelo de gestão
     public void adicionarModeloGestao(){
         Scanner scan = new Scanner(System.in);
         
@@ -87,7 +87,7 @@ public class DadosC {
     }
     
     
-    
+    //adiciona as atividades em uma única string
     public void cadastrarAtvdTecnoProjeto(){
         Scanner scan = new Scanner(System.in);        
         
@@ -102,7 +102,7 @@ public class DadosC {
                 informacoes.setAtividadeTecnologia(adicionarAtvdTecno());           
         }
     }
-    
+    //pega as atividades digitadas e retorna elas
     public String adicionarAtvdTecno(){
         Scanner scan = new Scanner(System.in);
         
@@ -118,7 +118,7 @@ public class DadosC {
         
         return atvdTecno;                
     }
-    
+    //verifica se a String possui algum valor que não seja nulo ou vazio
     public boolean verificaString(String texto){
         if( texto == null || texto.equals("") ){
             System.out.println("Digitação inválida, tente novamente");
@@ -128,7 +128,7 @@ public class DadosC {
     }
     
     
-    
+    //salva o cnpj, modelo de gestão e atividades no banco de dados
     public void salvarDadosGerais(DadosM infosGerais){
         try{
             bd.conexao();
@@ -143,20 +143,18 @@ public class DadosC {
     }
   
     
-
+    //métodod para pegar as informações da medicao e salvar elas no banco de dados
     public void pagarMedicao(){
         Scanner scan = new Scanner(System.in);
         
-        String projetoNome;
-        int etapaCompletada = 0;
         double valorTotal = 0;
         char satisfacao;
         
         System.out.println("Digite o nome do projeto que terá a medição paga: ");
-        projetoNome = scan.nextLine();
+        informacoes.getProjeto().setNomeProjeto(scan.nextLine().toUpperCase());
         
         System.out.println("Qual etapa do projeto foi completa?: ");
-        etapaCompletada = scan.nextInt();
+        informacoes.setEtapa(scan.nextInt());
         
         System.out.println("Qual o valor cheio a ser paga nesta medição?: ");
         valorTotal = scan.nextDouble();
@@ -168,14 +166,15 @@ public class DadosC {
         
         informacoes.setMedicao(valorPagoMedicao(satisfacao, valorTotal));
         
-        System.out.println("ProjetoNome: " + projetoNome + "\n" +
-                           "etapaCompletada: " + etapaCompletada + "\n" +
+        System.out.println("ProjetoNome: " + informacoes.getProjeto().getNomeProjeto() + "\n" +
+                           "etapaCompletada: " + informacoes.getEtapa() + "\n" +
                            "ValorTotal: " + valorTotal + "\n" +
                            "ValoPagar: " +  informacoes.getMedicao());
         
         //conexão com o BD para atualizar a etapa como completa e o valor da medicao;
+        salvarMedicao(informacoes, valorTotal);
     }
-    
+    //função para retorna o valor pago na medicao, caso o usuário esteja ou não estja satisfeito com a entrega
     public double valorPagoMedicao(char satisfacao, double valorTotal){
         Scanner scan = new Scanner(System.in);
         
@@ -206,95 +205,130 @@ public class DadosC {
                
         return valorPagoMedicao(satisfacao, valorTotal);
     }
+    //salva a medição no banco de dados
+    public void salvarMedicao(DadosM informacoes, double valorTotal){
+       try{
+           bd.conexao();
+           String sql = "insert into medicao values(" + informacoes.getEtapa() + ", " + valorTotal +", "+ informacoes.getMedicao() + ", '" + informacoes.getProjeto().getNomeProjeto() +"');" ;
+       
+           bd.getStatement().execute(sql);
+           
+           bd.desconecta();
+           
+           
+       }catch(Exception e){
+           System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
+       }
+    }
     
-    
-    
+    //Utilizada para pedir o nome a quantidade de etapas do projeto para inserir as informações no cronograma
+    //e depois chama uma função para inserir os dados
     public void cadastrarCronograma(){
         Scanner scan = new Scanner(System.in);
-        
-        System.out.println("Digite a quantidade de etapas que o proejto possui: ");
-        int quantidadeEtapas = scan.nextInt();
-        
-        for(int i = 0; i < quantidadeEtapas; i++ ){
-            inserirInformacoesCronograma();
-        }
+        try{
+            System.out.println("Digite o nome do projeto: ");
+            informacoes.getProjeto().setNomeProjeto(scan.nextLine().toUpperCase());
+
+            System.out.println("Digite a quantidade de etapas que o proejto possui: ");
+            int quantidadeEtapas = scan.nextInt();
+
+            for(int i = 0; i < quantidadeEtapas; i++ ){
+                inserirInformacoesCronograma(informacoes.getProjeto().getNomeProjeto(), i );
+            }
         //for com o nome da etapa
         //for com o que será feito na etapa
         //for com a data de inicio e fim da etapa
-    }
-    
-    public void inserirInformacoesCronograma(){
-        Scanner scan = new Scanner(System.in);
-        
-        System.out.println("Digite o número da etapa: ");
-        int numEtapa = scan.nextInt();
-        
-        scan.nextLine();
-        
-        System.out.println("Digite o nome da etapa " + numEtapa + ": ");
-        String nomeEtapa = scan.nextLine();
-        
-        System.out.println("Digite oque será feito na etapa " + numEtapa + ": ");
-        String descricaoEtapa = scan.nextLine();
-        
-        System.out.println("Digite a data de início da etapa " + numEtapa + ": ");
-        LocalDate dataInicio = converteStringParaData( scan.nextLine() );
-        
-        System.out.println("Digite a data de conclusão da etapa " + numEtapa + ": ");
-        LocalDate dataFinal =  converteStringParaData(scan.nextLine());
-        
-        while( !verificaDatasEtapa(dataInicio, dataFinal) ){
-            System.out.println("Digite a data de início da etapa " + numEtapa + ": ");
-            dataInicio = converteStringParaData( scan.nextLine() );
-        
-            System.out.println("Digite a data de conclusão da etapa " + numEtapa + ": ");
-            dataFinal =  converteStringParaData(scan.nextLine());
+        }catch(Exception e){
+            System.out.println("ERRO:" + e.getMessage());
         }
-        
-        
-        
-        //mandar para o banco de dados :)
     }
-    
+    //Pega as informações referente ao cronograma digitadas pelo usuário e depois chama uma função para salvar no banco de dados
+    public void inserirInformacoesCronograma(String nomeProjeto,int numEtapa){
+        Scanner scan = new Scanner(System.in);
+        try{        
+            informacoes.getProjeto().setNomeProjeto(nomeProjeto);
+            informacoes.setEtapa(numEtapa + 1);
+
+            System.out.println("Digite o nome da etapa " + informacoes.getEtapa() + ": ");
+            String nomeEtapa = scan.nextLine();
+
+            System.out.println("Digite oque será feito na etapa " + informacoes.getEtapa() + ": ");
+            String descricaoEtapa = scan.nextLine();
+
+            System.out.println("Digite a data de início da etapa " + informacoes.getEtapa() + ": ");
+            LocalDate dataInicio = converteStringParaData( scan.nextLine() ); 
+
+            System.out.println("Digite a data de conclusão da etapa " + informacoes.getEtapa() + ": ");
+            LocalDate dataFinal =  converteStringParaData(scan.nextLine());
+
+            while( !verificaDatasEtapa(dataInicio, dataFinal) ){
+                System.out.println("Digite a data de início da etapa " + informacoes.getEtapa() + ": ");
+                dataInicio = converteStringParaData( scan.nextLine() );
+
+                System.out.println("Digite a data de conclusão da etapa " + informacoes.getEtapa() + ": ");
+                dataFinal =  converteStringParaData(scan.nextLine());
+            }
+
+           
+
+
+            //mandar para o banco de dados :)
+            salvarCronograma(informacoes, nomeEtapa, descricaoEtapa, dataInicio, dataFinal);
+        }catch(Exception e){
+            System.out.println("ERRO: " + e.getMessage());
+        }
+    }
+    //verifica se as datas de fim e inicio das etapas são válidas
     public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
-        if( dateFinal.getYear() < dateInicio.getYear() || dateFinal.getMonthValue() < dateInicio.getMonthValue() ){
+        if( dateFinal.getYear() < dateInicio.getYear() ||  ( dateFinal.getYear() == dateInicio.getYear() && dateFinal.getMonthValue() < dateInicio.getMonthValue() ) ){
             System.out.println("Datas da etapa Inválidas");
             return false;
         }
         
         return true;
     }
-   
+   //salva o cronograma no banco de dados
+    public void salvarCronograma(DadosM informacoes, String nomeEtapa, String descricaoEtapa, LocalDate dataInicio, LocalDate dataFinal){
+       try{
+           bd.conexao();
+           String sql = "insert into cronograma values(" + informacoes.getEtapa() + ", '" + nomeEtapa + "', '" + descricaoEtapa +"', '" +  dataInicio + "', '" +  dataFinal + "', '" + informacoes.getProjeto().getNomeProjeto()+ "' );";
+       
+           bd.getStatement().execute(sql);
+           
+           bd.desconecta();
+           
+           
+       }catch(Exception e){
+           System.out.println("ERRO: " + e.getMessage());
+       }
+    }
     
     
+    //métodod para ajustar/mudar o cronograma. Pegar as informações do ajuste e salva no banco de dados
     public void ajustarCronograma(){
         Scanner scan = new Scanner(System.in);
         
         System.out.println("Qual projeto terá o cronograma ajustado: ");
-        String nomeProjeto = scan.nextLine();
+        informacoes.getProjeto().setNomeProjeto(scan.nextLine().toUpperCase());
         
         System.out.println("Qual etapa do projeto será alterada: ");
-        int etapa = scan.nextInt();
+        informacoes.setEtapa(scan.nextInt());
         
+        //limpando buffer do teclado
         scan.nextLine();
         
         System.out.println("Digite o risco do ajuste feito: ");
-        String riscoAlteracao = scan.nextLine();
+        informacoes.setRisco ( scan.nextLine() );
         
         System.out.println("Digite o impacto que esse ajuste causará no projeto: ");
-        String impactoAlteracao = scan.nextLine();
+        informacoes.setImpacto( scan.nextLine() );
         //Fazer o motivo ser sempre diferente de vazio
         System.out.println("Digite a motivação do ajuste no cronograma: ");
         String motivoAlteracao = scan.nextLine(); 
         
         System.out.println("Digite a nova data final desta etapa: ");
-        LocalDate dataAjustada = converteStringParaData(scan.nextLine());
+        informacoes.setAjustes( converteStringParaData(scan.nextLine() ) );
         
-        informacoes.setEtapa(etapa);
-        informacoes.setImpacto(impactoAlteracao);
-        informacoes.setRisco(riscoAlteracao);
-        informacoes.setAjustes(dataAjustada);
-        informacoes.setNomeEtapa(nomeProjeto);
 
         while( motivoAlteracao.length() < 50){
             System.out.println("Motivo de alteração inválido: deve ter no mínimo 50 caracteres.\nDigite novamente a motivação do ajuste no cronograma: ");
@@ -305,8 +339,9 @@ public class DadosC {
         informacoes.setCausa(motivoAlteracao);
         
         //mandar para o banco de dados
+        salvarAjusteCronograma(informacoes);
     }
-    
+    //converte uma string que representa uma data para uma LocalDate
     public LocalDate converteStringParaData(String dataStr){
         LocalDate data = null;
         
@@ -317,13 +352,26 @@ public class DadosC {
         System.out.println(data);
         
         }catch(Exception e){ 
-            e.printStackTrace();
+            System.out.println("Erro: " + e.getMessage());
         }
         
         return data;
     }
-    
-    
+    //salva os ajustes feitos no cronograma no banco de dados
+    public void salvarAjusteCronograma(DadosM informacoes){
+         try{
+           bd.conexao();
+           String sql = "insert into ajusteCronograma values(" + informacoes.getEtapa() + ", '" + informacoes.getCausa() + "', '" + informacoes.getImpacto() +"', '" +  informacoes.getRisco() + "', '" +  informacoes.getAjustes() + "', '" + informacoes.getProjeto().getNomeProjeto()+ "' );";
+       
+           bd.getStatement().execute(sql);
+           
+           bd.desconecta();
+           
+           
+       }catch(Exception e){
+           System.out.println("ERRO: " + e.getMessage());
+       }
+    }
     
     
     public void menu(){
