@@ -6,6 +6,7 @@ package Controle;
 
 import Modelo.EquipeProjetoM;
 import controle.BancoDados;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -17,6 +18,8 @@ import java.util.Scanner;
 public class EquipeProjetoC extends EquipeC{
     EquipeProjetoM equipeProjGeral = new EquipeProjetoM("","", "", "", null, null, 0);
     private BancoDados bd = new BancoDados();
+    private ResultSet rSet;
+    
     //pegar os valores do id da equipe a ser cadastrafa, o responsável por ela e o projeto que está trabalhando
     @Override
     public void cadastrarEquipe(){
@@ -37,6 +40,8 @@ public class EquipeProjetoC extends EquipeC{
         //mandar para o BD
         salvarEquipe(idEquipe, equipeProjGeral.getResponsavelGeral());
         salvarEquipeProjeto(idEquipe, nomeProjeto);
+        
+        System.out.println("Equipe salva com sucesso");
        }catch(Exception e){
            System.out.println("ERRO:" + e.getMessage());
        }
@@ -79,12 +84,9 @@ public class EquipeProjetoC extends EquipeC{
     
     //pega o id e a quantiade de integrantes da equipe
     @Override
-    public void cadastrarIntegrante(){
+    public void cadastrarIntegrante(int idEquipe){
         Scanner leitor = new Scanner(System.in);
-        try{
-        System.out.println("Digite o id da equipe à qual será adiciona os integrantes: ");
-        int idEquipe = leitor.nextInt();
-        
+        try{ 
         System.out.println("Digite quantos integrantes a equipe de projetos têm: ");
         int qtde = leitor.nextInt();
         
@@ -102,7 +104,7 @@ public class EquipeProjetoC extends EquipeC{
         try{
         for(int i = 0; i < qtde; i++){
             System.out.println("Informe o nome do "+ (i+1) + "° integrante: ");
-            equipeProjGeral.setIntegrantes(leitor.nextLine());
+            equipeProjGeral.setIntegrantes(leitor.nextLine().toLowerCase());
             
             System.out.println("Informe o cargo na administração do projeto para o "+ (i+1) + "° integrante: ");
             equipeProjGeral.setCargoProjeto(leitor.nextLine());
@@ -119,6 +121,9 @@ public class EquipeProjetoC extends EquipeC{
                 salvarIntegrantes(eResponsavelEtapa, equipeProjGeral, "");
                 
             salvarEquipeIntegrante(id, equipeProjGeral.getIntegrantes());
+            
+            System.out.println("Integrante salvo com sucesso!!!");
+
             }
         }catch(Exception e){
             System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
@@ -187,9 +192,7 @@ public class EquipeProjetoC extends EquipeC{
         try{
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         data = LocalDate.parse(dataStr, formato);
-        
-        System.out.println(data);
-        
+                
         }catch(Exception e){ 
             System.out.println("Erro: " + e.getMessage());
         }
@@ -247,8 +250,36 @@ public class EquipeProjetoC extends EquipeC{
     
     }
 
-
-
     
-   
+    
+     
+    @Override
+    public void resgatarEquipe(String nomeProjeto){
+         try{
+           bd.conexao();
+           String sql = "select equipes.responsavelGeral, equipe_projeto.codEquipe, equipe_integrante.nomeIntegrante, integrantes.* from equipe_projeto, equipe_integrante, integrantes, equipes where nomeProjeto = '" + nomeProjeto + "' and equipe_projeto.codEquipe = equipe_integrante.codEquipe and equipe_integrante.nomeIntegrante = integrantes.nomeIntegrante and equipes.codEquipe = equipe_integrante.codEquipe ;";
+
+           rSet = bd.getStatement().executeQuery(sql);
+
+             
+            System.out.println("--------------------------EQUIPE--------------------------");  
+            while(rSet.next()){
+               System.out.println("Id equipe...................: " + rSet.getInt("codEquipe") + "\n"
+                                +"Responsável geral............: " + rSet.getString("responsavelGeral") + "\n"
+                                + "Nome........................: " + rSet.getString("nomeIntegrante") + "\n"
+                                + "Cargo.......................: " + rSet.getString("cargo") + "\n"
+                                + "Empresa terceirizada........: " + rSet.getString("empresaTerceira") + "\n"
+                                + "Tipo da equipe..............: " + rSet.getString("tipoEquipe") + "\n"
+                                + "Responsável por etapa.......: " + rSet.getString("reponsavelPorEtapa") + "\n"
+                                + "Número etapa................: " + rSet.getInt("etapa") + "\n"
+                                + "Data de início da etapa.....: " + rSet.getDate("dataInicio") + "\n"
+                                + "Data de finalização da etapa: " + rSet.getDate("dataFim") + "\n");                           
+           }
+           
+           bd.desconecta();
+        }catch(Exception e){
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
+        }
+    }
+
 }

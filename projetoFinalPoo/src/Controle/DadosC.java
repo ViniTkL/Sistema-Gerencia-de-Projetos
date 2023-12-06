@@ -25,6 +25,7 @@ public class DadosC {
     public DadosC() {
     
     }
+    
     //Cadastra o cnpj, modelo de gestão e atividades do projeto e manda para o banco de dados
     public void cadastroDadosGerais(){
         cadastraCNPJ();
@@ -34,7 +35,10 @@ public class DadosC {
         System.out.println(informacoes.getPessoaJuridica() + "\n" +informacoes.getModeloGestao() + "\n" + informacoes.getAtividadeTecnologia() + "\n" + informacoes.getProjeto().getNomeProjeto());
         
         salvarDadosGerais(informacoes);
+        
+        System.out.println("Dados salvos com sucesso!!!");
     }
+    
     //pegar o nome do projeto e o cpnj da empresa
     public void cadastraCNPJ(){
         Scanner scan = new Scanner(System.in);
@@ -54,10 +58,12 @@ public class DadosC {
         informacoes.setPessoaJuridica(cnpj);
         
     }
+    
     //remove tudo que não for letras ou numeros da string
     public String removeCaracteresEspeciais(String texto){
         return texto.replaceAll("[^0-9]+","");
     }
+    
     //verifica se o tamanho do cnpj está correto
     public boolean verficaCnpj(String cnpj){
         if(cnpj.length() != 14){
@@ -166,13 +172,11 @@ public class DadosC {
         
         informacoes.setMedicao(valorPagoMedicao(satisfacao, valorTotal));
         
-        System.out.println("ProjetoNome: " + informacoes.getProjeto().getNomeProjeto() + "\n" +
-                           "etapaCompletada: " + informacoes.getEtapa() + "\n" +
-                           "ValorTotal: " + valorTotal + "\n" +
-                           "ValoPagar: " +  informacoes.getMedicao());
-        
         //conexão com o BD para atualizar a etapa como completa e o valor da medicao;
         salvarMedicao(informacoes, valorTotal);
+        
+        System.out.println("Medição salva com sucesso!!!");
+
     }
     //função para retorna o valor pago na medicao, caso o usuário esteja ou não estja satisfeito com a entrega
     public double valorPagoMedicao(char satisfacao, double valorTotal){
@@ -274,6 +278,9 @@ public class DadosC {
 
             //mandar para o banco de dados :)
             salvarCronograma(informacoes, nomeEtapa, descricaoEtapa, dataInicio, dataFinal);
+            
+            System.out.println("Cronograma salvo com sucesso!!!");
+
         }catch(Exception e){
             System.out.println("ERRO: " + e.getMessage());
         }
@@ -340,6 +347,8 @@ public class DadosC {
         
         //mandar para o banco de dados
         salvarAjusteCronograma(informacoes);
+        
+        System.out.println("Ajustes de cronograma salvo com sucesso!!!");
     }
     //converte uma string que representa uma data para uma LocalDate
     public LocalDate converteStringParaData(String dataStr){
@@ -349,7 +358,6 @@ public class DadosC {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         data = LocalDate.parse(dataStr, formato);
         
-        System.out.println(data);
         
         }catch(Exception e){ 
             System.out.println("Erro: " + e.getMessage());
@@ -373,76 +381,102 @@ public class DadosC {
        }
     }
     
+    //não vai usar isso aqui no menu -> so para testar se está puxando os dados coretamente
+    public void consultarInfomaçõesGerais(String nomeProjeto){
+        resgatarInformaçõesGerais(nomeProjeto);
+        resgatarMedicao(nomeProjeto); 
+    }
     
-    public void menu(){
-        Scanner scan = new Scanner(System.in);
-                
-        int resp = 0;
-        while(resp != -1){
-            System.out.println("-----------------------MENU-------------------------");
-            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n5 - Cadastrar cronograma\n6 - Alterar cronograma\n7 - cadastrar projeto\n8 - cadastrar todos os dados gerais\n9 - cadastrar equipe e equipe projeto\n10 - cadastar equipe Exec\n11 - cadastar equipe terceirizada\n-1 - Sair\nEscolha: ");
-            resp = scan.nextInt();
-            
-            switch (resp) {
-                case 1 -> {
-                    cadastraCNPJ();
-                }
-                case 2 -> {
-                    adicionarModeloGestao();
-                }
-                case 3 -> {
-                    cadastrarAtvdTecnoProjeto();
-                }
-                case 4 -> {
-                    pagarMedicao();
-                }
-                case 5 ->{
-                    cadastrarCronograma();
-                }
-                case 6 ->{
-                    ajustarCronograma();
-                }
-                case 7 ->{
-                    ProjetoC projeto = new ProjetoC();
-                    projeto.cadastrarProjeto();
-                }
-                case 8 ->{
-                    cadastroDadosGerais();
-                }
-                case 9 ->{
-                    EquipeProjetoC equipe1 = new EquipeProjetoC();
-                    equipe1.cadastrarEquipe();
-                    equipe1.cadastrarIntegrante();
-                }
-                case 10 ->{
-                    EquipeExecC equipe2 = new EquipeExecC();
-                    equipe2.cadastrarEquipe();
-                    equipe2.cadastrarIntegrante();
-                }
-                case 11 ->{
-                    EquipeTerceirizadoC equipe3 = new EquipeTerceirizadoC();
-                    equipe3.cadastrarEquipe();
-                    equipe3.cadastrarIntegrante();
-                }
-                case 12->{
-                    ProjetoC projeto = new ProjetoC();
-                    projeto.consultarInformaçõesProjeto();
-                }
-                case -1 -> {
-                    System.out.println("saindo...");
-                }
-                default -> throw new AssertionError();
+    public void resgatarInformaçõesGerais(String nomeProjeto){
+          try{
+           bd.conexao();
+           String sql = "select cnpj, modeloGestao, atividadeTecnologia from dadosGerais where nomeProjeto = '" + nomeProjeto + "';";
+
+           rSet = bd.getStatement().executeQuery(sql);
+
+             
+            if(rSet.next()){
+                System.out.println("--------------------------DadosGerais--------------------------" + "\n" 
+                                + "CNPJ..................: " + rSet.getString("cnpj") + "\n"
+                                + "Modelo de gestão......: " + rSet.getString("modeloGestao") + "\n"
+                                + "Atividades/Tecnologias: " + rSet.getString("atividadeTecnologia"));                    
+           }else{
+                System.out.println("Projeto não possui dados gerais cadastrados.");
             }
+           
+           bd.desconecta();
+       }catch(Exception e){
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
+       }
+    }
+    
+    
+    public void resgatarMedicao(String nomeProjeto){
+        try{
+           bd.conexao();
+           String sql = "select count(nomeProjeto) as totMedicao from medicao where nomeProjeto = '" + nomeProjeto + "';";
+
+           rSet = bd.getStatement().executeQuery(sql);
+
+             
+            if(rSet.next()){
+                System.out.println("Quantidade de medições pagas no projeto: " + rSet.getInt("totMedicao"));                    
+           }
+           
+           bd.desconecta();
+       }catch(Exception e){
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
+       }
+    }
+    
+
+    
+    public void resgatarCronograma(String nomeProjeto){
+        try{
+           bd.conexao();
+           String sql = "select *  from cronograma where nomeProjeto = '" + nomeProjeto + "';";
+
+           rSet = bd.getStatement().executeQuery(sql);
+
+             
+            System.out.println("--------------------------CRONOGRAMA--------------------------");  
+            while(rSet.next()){
+               System.out.println("Número etapa.......: " + rSet.getInt("etapa") + "\n"
+                                + "Nome etapa.........: " + rSet.getString("nomeEtapa") + "\n"
+                                + "Descrição..........: " + rSet.getString("descEtapa") + "\n"
+                                + "Data de início.....: " + rSet.getDate("dataInicio") + "\n"
+                                + "Data de finalização: " + rSet.getDate("dataFinal") + "\n" );                           
+           }
+           
+           bd.desconecta();
+        }catch(Exception e){
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
         }
     }
+    
+    
+    public void resgatarAjusteCronograma(String nomeProjeto){
+        try{
+           bd.conexao();
+           String sql = "select *  from ajusteCronograma where nomeProjeto = '" + nomeProjeto + "';";
 
-    public static void main(String[] args) {
-        DadosC dados = new DadosC();
-        
-        dados.menu();
+           rSet = bd.getStatement().executeQuery(sql);
+
+             
+            System.out.println("--------------------------AJUSTES PROJETO--------------------------");  
+            while(rSet.next()){
+               System.out.println("Número etapa alterada.......: " + rSet.getInt("etapaAlterada") + "\n"
+                                + "Motivo......................: " + rSet.getString("motivoAlteracao") + "\n"
+                                + "Impactos....................: " + rSet.getString("impactoAlteracao") + "\n"
+                                + "Riscos......................: " + rSet.getString("riscoAlteracao") + "\n"
+                                + "nova data de finalização....: " + rSet.getDate("novaDataFim") + "\n" );                           
+           }
+           
+           bd.desconecta();
+        }catch(Exception e){
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
+        }
     }
-
-
-
-
+    
+    
 }

@@ -19,6 +19,7 @@ public class ProjetoC {
     
     private BancoDados bd = new BancoDados();  
     private ResultSet rSet;
+    
    //cadastra um projeto, pegando todas as informaçõe do usuário e salva no banco de dados
     public void cadastrarProjeto(){
         projetoInfo = new ProjetoM();
@@ -44,6 +45,8 @@ public class ProjetoC {
             salvarProjeto(projetoInfo, qtde);
 
             adicionarStakeholders(projetoInfo, qtde);
+            
+            System.out.println("Projeto salvo com sucesso!!!");
         }catch(Exception e){
             System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
         }
@@ -127,13 +130,8 @@ public class ProjetoC {
    } 
    
    
-   
-   public void consultarInformaçõesProjeto(){
-       Scanner scan = new Scanner(System.in);
-       
-       System.out.println("Digite o nome do projeto que deseja consultar");
-       String nomeProjeto = scan.nextLine().toUpperCase();
-       
+   //não vai usar isso aqui no menu -> so para testar se está puxando os dados coretamente
+   public void consultarInformaçõesProjeto(String nomeProjeto){
        resgatarInfoProjeto(nomeProjeto);
        resgatarCodStakeholders(nomeProjeto);
    }
@@ -158,7 +156,7 @@ public class ProjetoC {
            
            bd.desconecta();
        }catch(Exception e){
-           System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
        }
    }
    
@@ -176,7 +174,7 @@ public class ProjetoC {
            
            bd.desconecta();
        }catch(Exception e){
-           System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
+           System.out.println("ERRO AO RESGATAR PROJETO: " + e.getMessage());
        }
    }
 }

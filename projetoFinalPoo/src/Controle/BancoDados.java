@@ -25,7 +25,7 @@ public class BancoDados {
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
                "jdbc:postgresql://localhost:5432/sisProjeto","postgres", "Receba321@");
-        System.out.println("Conectado ao PostGreSQL.");        
+        //System.out.println("Conectado ao PostGreSQL.");  //remover esse system out depois      
         }catch(Exception e){
             System.out.println("Falha ao tentar a conexÃ£o");
             e.printStackTrace();
@@ -51,7 +51,7 @@ public class BancoDados {
         if(conn != null){
             try{
                 conn.close();
-                System.out.println("Desconectado do Banco de dados :)");
+               // System.out.println("Desconectado do Banco de dados :)"); //remover esse system out depois    
             }catch(SQLException erro){
                 erro.printStackTrace();
             }

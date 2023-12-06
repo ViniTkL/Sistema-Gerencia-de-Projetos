@@ -19,13 +19,10 @@ public class EquipeExecC extends EquipeC{
         EquipeExecM equipe = new EquipeExecM(" ", " ", " ", " ", null, null, 0);
 
         @Override
-        public void cadastrarIntegrante(){
+        public void cadastrarIntegrante(int idEquipe){
             Scanner leitor = new Scanner(System.in);
             
             try{
-            System.out.println("Digite o id da equipe à qual será adiciona os integrantes: ");
-            int idEquipe = leitor.nextInt();
-
             System.out.println("Digite quantos integrantes a equipe de execução têm: ");
             int qtde = leitor.nextInt();
 
@@ -43,7 +40,7 @@ public class EquipeExecC extends EquipeC{
             try{
             for(int i = 0; i < qtde; i++){
                 System.out.println("Informe o nome do "+ (i+1) + "° integrante: ");
-                equipe.setIntegrantes(leitor.nextLine());
+                equipe.setIntegrantes(leitor.nextLine().toLowerCase());
 
                 System.out.println("Informe o cargo na empresa do "+ (i+1) + "° integrante: ");
                 equipe.setCargoEmpresa(leitor.nextLine());
@@ -60,6 +57,8 @@ public class EquipeExecC extends EquipeC{
                     salvarIntegrantes(eResponsavelEtapa, equipe, "");
 
                 salvarEquipeIntegrante(id, equipe.getIntegrantes());
+                
+                System.out.println("Integrante salvo com sucesso!!!");
                 }
             }catch(Exception e){
                 System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
@@ -127,8 +126,6 @@ public class EquipeExecC extends EquipeC{
            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
            data = LocalDate.parse(dataStr, formato);
 
-           System.out.println(data);
-
            }catch(Exception e){ 
                System.out.println("Erro: " + e.getMessage());
            }
@@ -185,9 +182,7 @@ public class EquipeExecC extends EquipeC{
        }
     
     }
-       
-
-
+  
 
 }
 
