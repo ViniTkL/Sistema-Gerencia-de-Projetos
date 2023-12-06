@@ -380,7 +380,7 @@ public class DadosC {
         int resp = 0;
         while(resp != -1){
             System.out.println("-----------------------MENU-------------------------");
-            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n5 - Cadastrar cronograma\n6 - Alterar cronograma\n-1 - Sair\nEscolha: ");
+            System.out.print("1 - Cadastrar CPNJ\n2 - Cadastrar Modelo De Gestão\n3 - Cadastrar tecnologias e ativiadades do projeto\n4 - Pagar medição\n5 - Cadastrar cronograma\n6 - Alterar cronograma\n7 - cadastrar projeto\n8 - cadastrar todos os dados gerais\n9 - cadastrar equipe e equipe projeto\n10 - cadastar equipe Exec\n11 - cadastar equipe terceirizada\n-1 - Sair\nEscolha: ");
             resp = scan.nextInt();
             
             switch (resp) {
@@ -410,9 +410,19 @@ public class DadosC {
                     cadastroDadosGerais();
                 }
                 case 9 ->{
-                    EquipeProjetoC equipe = new EquipeProjetoC();
-                    equipe.cadastrarEquipe();
-                    equipe.cadastrarIntegrante();
+                    EquipeProjetoC equipe1 = new EquipeProjetoC();
+                    equipe1.cadastrarEquipe();
+                    equipe1.cadastrarIntegrante();
+                }
+                case 10 ->{
+                    EquipeExecC equipe2 = new EquipeExecC();
+                    equipe2.cadastrarEquipe();
+                    equipe2.cadastrarIntegrante();
+                }
+                case 11 ->{
+                    EquipeTerceirizadoC equipe3 = new EquipeTerceirizadoC();
+                    equipe3.cadastrarEquipe();
+                    equipe3.cadastrarIntegrante();
                 }
                 case -1 -> {
                     System.out.println("saindo...");

@@ -8,7 +8,6 @@ import Modelo.EquipeProjetoM;
 import controle.BancoDados;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -22,7 +21,7 @@ public class EquipeProjetoC extends EquipeC{
     @Override
     public void cadastrarEquipe(){
         Scanner leitor = new Scanner(System.in);
-        
+       try{ 
         System.out.println("Informe o id da equipe a ser cadastrada: ");
         int idEquipe = leitor.nextInt();
         
@@ -38,6 +37,9 @@ public class EquipeProjetoC extends EquipeC{
         //mandar para o BD
         salvarEquipe(idEquipe, equipeProjGeral.getResponsavelGeral());
         salvarEquipeProjeto(idEquipe, nomeProjeto);
+       }catch(Exception e){
+           System.out.println("ERRO:" + e.getMessage());
+       }
     }
     
     //salva o id e o responsável geral da equipe no banco de dados
@@ -79,7 +81,7 @@ public class EquipeProjetoC extends EquipeC{
     @Override
     public void cadastrarIntegrante(){
         Scanner leitor = new Scanner(System.in);
-
+        try{
         System.out.println("Digite o id da equipe à qual será adiciona os integrantes: ");
         int idEquipe = leitor.nextInt();
         
@@ -87,6 +89,9 @@ public class EquipeProjetoC extends EquipeC{
         int qtde = leitor.nextInt();
         
         adicionarIntegrantes(qtde, idEquipe);
+        }catch(Exception e){
+            System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
+        }
     }
     
     //Adiciona informações básicas sobre os integrantes
@@ -94,6 +99,7 @@ public class EquipeProjetoC extends EquipeC{
     public void adicionarIntegrantes(int qtde, int id){ 
         Scanner leitor = new Scanner(System.in);
         
+        try{
         for(int i = 0; i < qtde; i++){
             System.out.println("Informe o nome do "+ (i+1) + "° integrante: ");
             equipeProjGeral.setIntegrantes(leitor.nextLine());
@@ -107,12 +113,15 @@ public class EquipeProjetoC extends EquipeC{
             cadastrarResponsaveisEtapa(eResponsavelEtapa);
             
             //mandar para o banco de dados
-            if(eResponsavelEtapa == 's')
+            if(eResponsavelEtapa == 'S')
                 salvarIntegrantes(eResponsavelEtapa, equipeProjGeral);
             else
                 salvarIntegrantes(eResponsavelEtapa, equipeProjGeral, "");
                 
             salvarEquipeIntegrante(id, equipeProjGeral.getIntegrantes());
+            }
+        }catch(Exception e){
+            System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
         }
     }
     

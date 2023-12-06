@@ -12,18 +12,7 @@ import java.util.Scanner;
 public class EquipeC {
     
 
-    public void cadastrarEquipe(){
-        Scanner leitor = new Scanner(System.in);
-        
-        System.out.println("Informe o projeto que a equipe está participando: ");
-        String nomeProjeto = leitor.nextLine();
-        
-        System.out.println("Informe o responsável geral da equipe: ");
-        String responsavelGeral = leitor.nextLine();
-        
-        //mandar para o BD
-        
-    }
+    public void cadastrarEquipe(){ }
     //este métodod n vai ter nada aq porém as classes filhas vão utilizar
     public void cadastrarIntegrante(){ }
     
@@ -41,7 +30,7 @@ public class EquipeC {
     
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeExecM equipe){}
     
-    public void salvarIntegrantes(char eResponsavelEtapa, EquipeTerceirizadoM equipe){}
+    public void salvarIntegrantes(char eResponsavelEtapa, EquipeTerceirizadoM equipe, String cargotTerc){}
     
     public static void main(String[] args) {
         
