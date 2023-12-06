@@ -44,15 +44,22 @@ create table equipe_integrante(
 	foreign key(codEquipe) references equipes(codEquipe),
 	foreign key(nomeIntegrante) references integrantes(nomeIntegrante)
 );
--- atividade tecnologia vai ser uma string concatenada com todas as tecnologias e atividades da empresa
+
+create table equipe_projeto(
+codEquipe integer not null,
+	nomeProjeto varchar(40) not null check(nomeProjeto <> ' '),
+	foreign key(codEquipe) references equipes(codEquipe),
+	foreign key(nomeProjeto) references projetos(nomeProjeto)	
+);
+
 create table dadosGerais(
 cnpj varchar(14) not null check(length(cnpj) = 14),
-	modeloGestão  varchar(25) not null check(modeloGestão <> ' '),
+	modeloGestao  varchar(25) not null check(modeloGestao <> ' '),
 	nomeProjeto varchar(40) not null check(nomeProjeto <> ' '),
 	atividadeTecnologia varchar(300) not null check(atividadeTecnologia <> ' '),
 	primary key(cnpj),
 	foreign key(nomeProjeto) references projetos(nomeProjeto)
-)
+);
 
 create table cronograma(
 etapa integer not null check(etapa > 0),
@@ -82,18 +89,10 @@ etapaCompleta integer not null check(etapaCompleta > 0),
 	foreign key(nomeProjeto) references projetos(nomeProjeto)
 );
 
-
-
-insert into equipes(responsavelGeral) values('Cleber Rocha');
-insert into equipes(responsavelGeral) values('Rogerio Pinto');
-insert into equipes(responsavelGeral) values('Mano Menezes');
-
-
-
 select * from equipes;
 
 select * from projetos;
--- stakeholders com mesmp nomes estão sendo inseridos separados aumentando a sobrecarga desnecessária
+
 select * from stakeholders;
 
 select * from projeto_stakeholders;
@@ -103,3 +102,16 @@ select * from dadosGerais;
 select * from medicao;
 
 select * from cronograma;
+
+select * from ajusteCronograma;
+
+select * from integrantes;
+
+select * from equipes;
+
+select * from equipe_projeto;
+
+select * from equipe_integrante;
+
+
+
