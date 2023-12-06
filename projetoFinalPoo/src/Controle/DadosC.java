@@ -19,13 +19,24 @@ import java.util.Scanner;
 //DEPOIS TEM QUE FAZER A DOCUMENTAÇÃO DA CLASSE E DAS FUNÇÕES
 public class DadosC {
     DadosM informacoes = new DadosM();
+    ProjetoC projetoInfo = new ProjetoC();
     private BancoDados bd = new BancoDados();  
     private ResultSet rSet;
    
     public DadosC() {
     
     }
+
+    public ProjetoC getProjetoInfo() {
+        return projetoInfo;
+    }
+
+    public void setProjetoInfo(ProjetoC projetoInfo) {
+        this.projetoInfo = projetoInfo;
+    }
     
+    
+  
     //Cadastra o cnpj, modelo de gestão e atividades do projeto e manda para o banco de dados
     public void cadastroDadosGerais(){
         cadastraCNPJ();

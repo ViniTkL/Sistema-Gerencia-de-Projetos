@@ -1,20 +1,12 @@
 package Visualizacao;
 
 import Controle.DadosC;
-import Controle.EquipeExecC;
-import Controle.EquipeProjetoC;
-import Controle.EquipeTerceirizadoC;
-import Controle.ProjetoC;
 import java.util.Scanner;
 
 
 public class Menu {
     DadosC dadosGerais = new DadosC();
-    ProjetoC projetoInfo = new ProjetoC();
-    EquipeProjetoC equipeProjetoGerencia = new EquipeProjetoC();
-    EquipeExecC equipeProjetoExec = new EquipeExecC();
-    EquipeTerceirizadoC equipeProjetoTerc = new EquipeTerceirizadoC();
-
+ 
 
 public void menuGeral(){
     Scanner scan = new Scanner(System.in);
@@ -56,13 +48,14 @@ public void menuCadastrar(){
             
             switch (resp) {
                 case 1 -> {
-                    projetoInfo.cadastrarProjeto();
+                    dadosGerais.getProjetoInfo().cadastrarProjeto();
                 }
                 case 2 -> {
                     dadosGerais.cadastroDadosGerais();
                 }
                 case 3-> {
-                    equipeProjetoGerencia.cadastrarEquipe();
+                    dadosGerais.getProjetoInfo().getEquipeProjetoGerencia().cadastrarEquipe();
+                    //equipeProjetoGerencia.cadastrarEquipe();
                     escolherTipoEquipeCadastrar();
                 }
                 case 4 -> {
@@ -96,13 +89,16 @@ public void escolherTipoEquipeCadastrar(){
             
             switch (resp) {
                 case 1 -> {
-                    equipeProjetoGerencia.cadastrarIntegrante(id);
+                    dadosGerais.getProjetoInfo().getEquipeProjetoGerencia().cadastrarIntegrante(id);
+                    //equipeProjetoGerencia.cadastrarIntegrante(id);
                 }
                 case 2 -> {
-                    equipeProjetoExec.cadastrarIntegrante(id);
+                    dadosGerais.getProjetoInfo().getEquipeProjetoExec().cadastrarIntegrante(id);
+                    //equipeProjetoExec.cadastrarIntegrante(id);
                 }
                 case 3-> {
-                    equipeProjetoTerc.cadastrarIntegrante(id);
+                    dadosGerais.getProjetoInfo().getEquipeProjetoTerc().cadastrarIntegrante(id);
+                    //equipeProjetoTerc.cadastrarIntegrante(id);
                 }
                 case -1 -> {
                     System.out.println("voltando ao menu principal...");
@@ -151,11 +147,12 @@ public void menuConsulta(){
             
             switch (resp) {
                 case 1 -> {
-                     projetoInfo.consultarInformaçõesProjeto(nomeProjeto);
-                     dadosGerais.consultarInfomaçõesGerais(nomeProjeto);
+                    dadosGerais.getProjetoInfo().consultarInformaçõesProjeto(nomeProjeto);
+                    dadosGerais.consultarInfomaçõesGerais(nomeProjeto);
                 }
                 case 2 -> {
-                    equipeProjetoGerencia.resgatarEquipe(nomeProjeto);
+                    dadosGerais.getProjetoInfo().getEquipeProjetoGerencia().resgatarEquipe(nomeProjeto);
+                    //equipeProjetoGerencia.resgatarEquipe(nomeProjeto);
                 }
                 case 3 -> {
                     dadosGerais.resgatarCronograma(nomeProjeto);

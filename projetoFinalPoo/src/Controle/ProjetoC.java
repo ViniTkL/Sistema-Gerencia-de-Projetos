@@ -16,9 +16,36 @@ import java.sql.ResultSet;
 public class ProjetoC {
     
     private ProjetoM projetoInfo = null;
-    
+    EquipeProjetoC equipeProjetoGerencia = new EquipeProjetoC();
+    EquipeExecC equipeProjetoExec = new EquipeExecC();
+    EquipeTerceirizadoC equipeProjetoTerc = new EquipeTerceirizadoC();
     private BancoDados bd = new BancoDados();  
     private ResultSet rSet;
+
+    public EquipeProjetoC getEquipeProjetoGerencia() {
+        return equipeProjetoGerencia;
+    }
+
+    public void setEquipeProjetoGerencia(EquipeProjetoC equipeProjetoGerencia) {
+        this.equipeProjetoGerencia = equipeProjetoGerencia;
+    }
+
+    public EquipeExecC getEquipeProjetoExec() {
+        return equipeProjetoExec;
+    }
+
+    public void setEquipeProjetoExec(EquipeExecC equipeProjetoExec) {
+        this.equipeProjetoExec = equipeProjetoExec;
+    }
+
+    public EquipeTerceirizadoC getEquipeProjetoTerc() {
+        return equipeProjetoTerc;
+    }
+
+    public void setEquipeProjetoTerc(EquipeTerceirizadoC equipeProjetoTerc) {
+        this.equipeProjetoTerc = equipeProjetoTerc;
+    }
+    
     
    //cadastra um projeto, pegando todas as informaçõe do usuário e salva no banco de dados
     public void cadastrarProjeto(){
