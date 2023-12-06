@@ -424,6 +424,10 @@ public class DadosC {
                     equipe3.cadastrarEquipe();
                     equipe3.cadastrarIntegrante();
                 }
+                case 12->{
+                    ProjetoC projeto = new ProjetoC();
+                    projeto.consultarInformaçõesProjeto();
+                }
                 case -1 -> {
                     System.out.println("saindo...");
                 }

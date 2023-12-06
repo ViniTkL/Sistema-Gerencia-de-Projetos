@@ -25,25 +25,28 @@ public class ProjetoC {
        
         Scanner scan = new Scanner(System.in);
        
-       
-        System.out.println("Digite o nome do projeto: ");
-        projetoInfo.setNomeProjeto(scan.nextLine().toUpperCase());
-       
-        System.out.println("Digite o escopo do projeto: ");
-        projetoInfo.setEscopo(scan.nextLine().toUpperCase());
-       
-        System.out.println("Digite o custo Orçado do projeto: ");
-        projetoInfo.setCustoOrcado(scan.nextDouble());
-       
-        System.out.println("Digite o custo aprovado para o projeto: ");
-        projetoInfo.setCustoAprovado(scan.nextDouble());
-        
-        System.out.println("Digite a quantidade de stakeholders");
-        int qtde = scan.nextInt();
-        
-        salvarProjeto(projetoInfo, qtde);
-        
-        adicionarStakeholders(projetoInfo, qtde);
+        try{
+            System.out.println("Digite o nome do projeto: ");
+            projetoInfo.setNomeProjeto(scan.nextLine().toUpperCase());
+
+            System.out.println("Digite o escopo do projeto: ");
+            projetoInfo.setEscopo(scan.nextLine().toUpperCase());
+
+            System.out.println("Digite o custo Orçado do projeto: ");
+            projetoInfo.setCustoOrcado(scan.nextDouble());
+
+            System.out.println("Digite o custo aprovado para o projeto: ");
+            projetoInfo.setCustoAprovado(scan.nextDouble());
+
+            System.out.println("Digite a quantidade de stakeholders");
+            int qtde = scan.nextInt();
+
+            salvarProjeto(projetoInfo, qtde);
+
+            adicionarStakeholders(projetoInfo, qtde);
+        }catch(Exception e){
+            System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
+        }
    }
    //função para adicionar vários stakeholder e salvar eles no banco de dados em duas tabelas diferentes
    public void adicionarStakeholders(ProjetoM projeto, int qtde){
@@ -124,4 +127,56 @@ public class ProjetoC {
    } 
    
    
+   
+   public void consultarInformaçõesProjeto(){
+       Scanner scan = new Scanner(System.in);
+       
+       System.out.println("Digite o nome do projeto que deseja consultar");
+       String nomeProjeto = scan.nextLine().toUpperCase();
+       
+       resgatarInfoProjeto(nomeProjeto);
+       resgatarCodStakeholders(nomeProjeto);
+   }
+   
+   public void resgatarInfoProjeto(String nomeProjeto){
+        try{
+           bd.conexao();
+           String sql = "select * from projetos where nomeProjeto = '" + nomeProjeto + "';";
+       
+           rSet = bd.getStatement().executeQuery(sql);
+
+           if(rSet.next()){
+               System.out.println("--------------------------INFORMAÇÕES DO PROJETO--------------------------" + "\n" 
+                                + "Nome do projeto........: " + rSet.getString("nomeProjeto") + "\n"
+                                + "Escopo.................: " + rSet.getString("escopo") + "\n"
+                                + "Quantidade de staholder: " + rSet.getInt("qtdeStakeholders") + "\n"
+                                + "Custo orçado...........: " + rSet.getDouble("custoOrcado") + "\n"
+                                + "Custo aprovado.........: " + rSet.getDouble("custoAprovado") + "\n");
+           }else{
+               System.out.println("Projeto não encontrado.");
+           }
+           
+           bd.desconecta();
+       }catch(Exception e){
+           System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
+       }
+   }
+   
+   public void resgatarCodStakeholders(String nomeProjeto){
+        try{
+           bd.conexao();
+           String sql = "select projeto_stakeholders.codStakeholder, stakeholders.nomeStakeholder from projeto_stakeholders, stakeholders where nomeProjeto = '" + nomeProjeto + "' and projeto_stakeholders.codStakeholder = stakeholders.codStakeholder ;";
+
+           rSet = bd.getStatement().executeQuery(sql);
+
+            System.out.println("--------------------------STAKEHOLDERS--------------------------");  
+            while(rSet.next()){
+               System.out.println("Nome do stakeholder: " + rSet.getString("nomeStakeholder"));                           
+           }
+           
+           bd.desconecta();
+       }catch(Exception e){
+           System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
+       }
+   }
 }
