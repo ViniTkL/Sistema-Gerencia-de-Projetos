@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 
 /** A classe a seguir é o modelo das informações contidas no projeto.
@@ -19,6 +18,7 @@ import java.util.Date;
  * ajustes:  LocalDate que representa o ajuste do cronograma.
  * projeto: Objeto que representa as informações relacionadas a um projeto específico.
  * Métodos: Construtores com e sem passagem de paramêtros, Getters e setter de todas as variáveis.
+ * 
  */
 public class DadosM {
     private String pessoaJuridica,

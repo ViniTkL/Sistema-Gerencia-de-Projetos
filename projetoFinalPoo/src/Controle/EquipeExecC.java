@@ -11,13 +11,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
- *
- * @author anton
+ * A classe EquipeExecC é uma extensão da classe EquipeC e controla as operações específicas
+ * relacionadas à equipe de execução de um projeto. Ela implementa métodos para cadastrar integrantes,
+ * adicionar integrantes, cadastrar responsáveis por etapa, e salvar informações no banco de dados.
+ * 
  */
 public class EquipeExecC extends EquipeC{
         private BancoDados bd = new BancoDados();
         EquipeExecM equipe = new EquipeExecM(" ", " ", " ", " ", null, null, 0);
-
+        
+         /**
+           * Cadastra integrantes na equipe de execução.
+           * 
+           * @param idEquipe ID da equipe a ser associada.
+        */
         @Override
         public void cadastrarIntegrante(int idEquipe){
             Scanner leitor = new Scanner(System.in);
@@ -33,6 +40,12 @@ public class EquipeExecC extends EquipeC{
                     
         }
         
+        /**
+            * Adiciona integrantes à equipe de execução.
+            * 
+            * @param qtde Quantidade de integrantes a serem adicionados.
+            * @param id ID da equipe.
+        */
         @Override
         public void adicionarIntegrantes(int qtde, int id){
             Scanner leitor = new Scanner(System.in);
@@ -65,6 +78,11 @@ public class EquipeExecC extends EquipeC{
             }
         }
 
+        /**
+            * Cadastra os responsáveis por uma etapa na equipe de execução.
+            * 
+            * @param eResponsavelEtapa Caractere indicando a responsabilidade pela etapa.
+        */
         @Override
         public void cadastrarResponsaveisEtapa(char eResponsavelEtapa){
             Scanner leitor = new Scanner(System.in);
@@ -108,7 +126,13 @@ public class EquipeExecC extends EquipeC{
             }
         }
       
-        //verifica se as datas de inicio e fim da etapa são válidas
+         /**
+            * Verifica se as datas de início e fim da etapa são válidas.
+            * 
+            * @param dateInicio Data de início da etapa.
+            * @param dateFinal Data final da etapa.
+            * @return True se as datas são válidas, False caso contrário.
+        */
         public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
             if( dateFinal.getYear() < dateInicio.getYear() ||  ( dateFinal.getYear() == dateInicio.getYear() && dateFinal.getMonthValue() < dateInicio.getMonthValue() ) ){
                 System.out.println("Datas da etapa Inválidas");
@@ -118,7 +142,12 @@ public class EquipeExecC extends EquipeC{
             return true;
         }
         
-        //converte uma String que representa uma data para uma LocalDate
+        /**
+            * Converte uma String que representa uma data para uma LocalDate.
+            * 
+            * @param dataStr String que representa a data.
+            * @return Objeto LocalDate representando a data.
+        */
         public LocalDate converteStringParaData(String dataStr){
            LocalDate data = null;
 
@@ -133,7 +162,12 @@ public class EquipeExecC extends EquipeC{
            return data;
         }
 
-        //salva os integrantes responsáveis por etapa no banco de dados
+    /**
+            * Salva os integrantes responsáveis por etapa no banco de dados.
+            * 
+            * @param eResponsavelEtapa Caractere indicando a responsabilidade pela etapa.
+            * @param equipe Objeto da classe EquipeExecM.
+        */
     @Override
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeExecM equipe){
         try{
@@ -150,7 +184,13 @@ public class EquipeExecC extends EquipeC{
     
     }
     
-    //salva os integrantes NÃO responsáveis por etapa no banco de dados
+    /**
+            * Salva os integrantes não responsáveis por etapa no banco de dados.
+            * 
+            * @param eResponsavelEtapa Caractere indicando a responsabilidade pela etapa.
+            * @param equipe Objeto da classe EquipeExecM.
+            * @param dateNull String representando data nula.
+        */
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeExecM equipe, String dateNull){
         try{
            bd.conexao();
@@ -166,7 +206,12 @@ public class EquipeExecC extends EquipeC{
     
     }
     
-    //salva o nome do integrante e o id da equipe que ele faz parte no banco de dados
+    /**
+            * Salva o nome do integrante e o ID da equipe que ele faz parte no banco de dados.
+            * 
+            * @param id ID da equipe.
+            * @param nomeIntegrante Nome do integrante.
+        */
     @Override
     public void salvarEquipeIntegrante(int id, String nomeIntegrante){
         try{

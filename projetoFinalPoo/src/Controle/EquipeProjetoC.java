@@ -12,15 +12,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
- *
- * @author anton
- */
+     * A classe EquipeProjetoC gerencia operações específicas relacionadas à equipe de projetos de um projeto. Esta classe é uma extensão da classe EquipeC.
+     * Ela inclui métodos para cadastrar a equipe de projetos, adicionar integrantes, cadastrar responsáveis por etapas e 
+     * recuperar informações da equipe do banco de dados.
+     * 
+    */
 public class EquipeProjetoC extends EquipeC{
     EquipeProjetoM equipeProjGeral = new EquipeProjetoM("","", "", "", null, null, 0);
     private BancoDados bd = new BancoDados();
     private ResultSet rSet;
     
-    //pegar os valores do id da equipe a ser cadastrafa, o responsável por ela e o projeto que está trabalhando
+    /**
+     * Cadastra uma nova equipe de projetos, solicitando informações como o ID da equipe, o responsável geral e o nome do projeto. As informações são armazenadas no banco de dados.
+     */
     @Override
     public void cadastrarEquipe(){
         Scanner leitor = new Scanner(System.in);
@@ -47,7 +51,12 @@ public class EquipeProjetoC extends EquipeC{
        }
     }
     
-    //salva o id e o responsável geral da equipe no banco de dados
+    /**
+     * Salva o ID e o responsável geral da equipe no banco de dados.
+     * 
+     * @param id ID da equipe.
+     * @param respGeral Responsável geral da equipe.
+    */
     @Override
     public void salvarEquipe(int id, String respGeral){
         try{
@@ -63,7 +72,12 @@ public class EquipeProjetoC extends EquipeC{
        }
     }
     
-    //salva o id da equipe e o projeto em que ela está atuando
+     /**
+     * Salva o ID da equipe e o nome do projeto em que ela está atuando.
+     * 
+     * @param id ID da equipe.
+     * @param nomeProjeto Nome do projeto.
+     */
     @Override
     public void salvarEquipeProjeto(int id, String nomeProjeto){
         try{
@@ -82,7 +96,11 @@ public class EquipeProjetoC extends EquipeC{
     
     
     
-    //pega o id e a quantiade de integrantes da equipe
+     /**
+     * Solicita o ID e a quantidade de integrantes da equipe de projetos.
+     * 
+     * @param idEquipe ID da equipe.
+     */
     @Override
     public void cadastrarIntegrante(int idEquipe){
         Scanner leitor = new Scanner(System.in);
@@ -96,7 +114,12 @@ public class EquipeProjetoC extends EquipeC{
         }
     }
     
-    //Adiciona informações básicas sobre os integrantes
+    /**
+     * Adiciona informações básicas sobre os integrantes da equipe de projetos.
+     * 
+     * @param qtde Quantidade de integrantes.
+     * @param id ID da equipe.
+     */
     @Override
     public void adicionarIntegrantes(int qtde, int id){ 
         Scanner leitor = new Scanner(System.in);
@@ -130,7 +153,11 @@ public class EquipeProjetoC extends EquipeC{
         }
     }
     
-    //Cadastra os responsáveis por etapas, pegando as informações e salvando elas
+   /**
+      * Cadastra os responsáveis por etapas, coletando informações e salvando-as.
+      * 
+      * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('S' ou 'N').
+     */
     @Override
     public void cadastrarResponsaveisEtapa(char eResponsavelEtapa){
         Scanner leitor = new Scanner(System.in);
@@ -175,7 +202,13 @@ public class EquipeProjetoC extends EquipeC{
             
     }
     
-    //verifica se as datas de inicio e fim da etapa são válidas
+    /**
+     * Verifica se as datas de início e fim da etapa são válidas.
+     * 
+     * @param dateInicio Data de início da etapa.
+     * @param dateFinal Data de fim da etapa.
+     * @return true se as datas são válidas, false caso contrário.
+     */
     public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
         if( dateFinal.getYear() < dateInicio.getYear() ||  ( dateFinal.getYear() == dateInicio.getYear() && dateFinal.getMonthValue() < dateInicio.getMonthValue() ) ){
             System.out.println("Datas da etapa Inválidas");
@@ -185,7 +218,12 @@ public class EquipeProjetoC extends EquipeC{
         return true;
     }
     
-     //converte uma String que representa uma data para uma LocalDate
+    /**
+     * Converte uma String que representa uma data para um objeto LocalDate.
+     * 
+     * @param dataStr String representando a data.
+     * @return Objeto LocalDate.
+    */
     public LocalDate converteStringParaData(String dataStr){
         LocalDate data = null;
         
@@ -200,7 +238,12 @@ public class EquipeProjetoC extends EquipeC{
         return data;
     }
     
-    //salva os integrantes responsáveis por etapa no banco de dados
+     /**
+     * Salva os integrantes responsáveis por etapas no banco de dados.
+     * 
+     * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('S').
+     * @param equipe Instância da classe EquipeProjetoM contendo informações do integrante.
+    */
     @Override
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeProjetoM equipe){
         try{
@@ -217,7 +260,13 @@ public class EquipeProjetoC extends EquipeC{
     
     }
     
-    //salva os integrantes NÃO responsáveis por etapa no banco de dados
+    /**
+     * Salva os integrantes não responsáveis por etapa no banco de dados.
+     * 
+     * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('N').
+     * @param equipe Instância da classe EquipeProjetoM contendo informações do integrante.
+     * @param dateNull String representando uma data nula.
+     */
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeProjetoM equipe, String dateNull){
         try{
            bd.conexao();
@@ -233,7 +282,12 @@ public class EquipeProjetoC extends EquipeC{
     
     }
     
-    //salva o nome do integrante e o id da equipe que ele faz parte no banco de dados
+    /**
+     * Salva o nome do integrante e o ID da equipe à qual ele pertence no banco de dados.
+     * 
+     * @param id ID da equipe.
+     * @param nomeIntegrante Nome do integrante.
+    */
     @Override
     public void salvarEquipeIntegrante(int id, String nomeIntegrante){
         try{
@@ -251,8 +305,12 @@ public class EquipeProjetoC extends EquipeC{
     }
 
     
-    
-     
+         
+    /**
+     * Resgata informações da equipe a partir do banco de dados, relacionadas a um determinado projeto.
+     * 
+     * @param nomeProjeto Nome do projeto.
+    */
     @Override
     public void resgatarEquipe(String nomeProjeto){
          try{

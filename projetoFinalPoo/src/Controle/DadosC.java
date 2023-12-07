@@ -12,11 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
- *
- * @author vinim
+ * A classe DadosC é responsável por controlar as operações relacionadas aos dados gerais do projeto,
+ * como cadastrar informações, medir entregas, cadastrar e ajustar cronograma, e recuperar informações do banco de dados. 
  */
-
-//DEPOIS TEM QUE FAZER A DOCUMENTAÇÃO DA CLASSE E DAS FUNÇÕES
 public class DadosC {
     DadosM informacoes = new DadosM();
     ProjetoC projetoInfo = new ProjetoC();
@@ -37,7 +35,28 @@ public class DadosC {
     
     
   
-    //Cadastra o cnpj, modelo de gestão e atividades do projeto e manda para o banco de dados
+    /**
+    * Realiza o cadastro de informações gerais de um projeto, incluindo CNPJ, modelo de gestão e atividades do projeto,
+    * e armazena os dados no banco de dados.
+    * 
+    * Este método executa as seguintes etapas:
+    * 1. Solicita e cadastra o CNPJ do projeto através do método `cadastraCNPJ()`.
+    * 2. Adiciona o modelo de gestão do projeto utilizando o método `adicionarModeloGestao()`.
+    * 3. Cadastra as atividades tecnológicas do projeto por meio do método `cadastrarAtvdTecnoProjeto()`.
+    * 4. Exibe as informações cadastradas, incluindo CNPJ, modelo de gestão, atividades tecnológicas e o nome do projeto.
+    * 5. Salva os dados gerais no banco de dados através do método `salvarDadosGerais()`.
+    * 6. Exibe uma mensagem indicando o sucesso do processo.
+    * 
+    * Pré-condições:
+    * - Os métodos `cadastraCNPJ()`, `adicionarModeloGestao()`, e `cadastrarAtvdTecnoProjeto()` devem estar implementados
+    *   para obter as informações necessárias do usuário ou de outras fontes.
+    * - A variável de instância `informacoes` deve ser acessível e conter as informações do projeto.
+    * - O método `salvarDadosGerais()` deve ser implementado para persistir as informações no banco de dados.
+    * 
+    * Pós-condições:
+    * - As informações gerais do projeto são cadastradas e armazenadas no banco de dados.
+    * - Uma mensagem indicando o sucesso do cadastro é exibida no console.
+    */
     public void cadastroDadosGerais(){
         cadastraCNPJ();
         adicionarModeloGestao();
@@ -50,7 +69,21 @@ public class DadosC {
         System.out.println("Dados salvos com sucesso!!!");
     }
     
-    //pegar o nome do projeto e o cpnj da empresa
+   /**
+    * Realiza o cadastro do CNPJ do projeto e do nome associado a ele.
+    * Solicita ao usuário que insira o nome do projeto e o CNPJ da empresa responsável pelo projeto.
+    * Remove caracteres especiais do CNPJ inserido e verifica sua validade.
+    * Armazena o CNPJ na instância de informações do projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'verificaCnpj()' deve estar implementado para validar o CNPJ inserido.
+    * - O método 'removeCaracteresEspeciais()' deve estar implementado para limpar o CNPJ de caracteres especiais.
+    * 
+    * Pós-condições:
+    * - O nome do projeto e o CNPJ da empresa responsável pelo projeto são cadastrados.
+    * - O CNPJ válido é armazenado na instância de informações do projeto.
+    */
     public void cadastraCNPJ(){
         Scanner scan = new Scanner(System.in);
         String cnpj = null;
@@ -70,12 +103,22 @@ public class DadosC {
         
     }
     
-    //remove tudo que não for letras ou numeros da string
+    /**
+    * Remove caracteres especiais de uma string, mantendo apenas os dígitos numéricos.
+    * Utiliza expressão regular para substituir todos os caracteres não numéricos por uma string vazia.
+    * 
+    * @param texto A string da qual os caracteres especiais serão removidos.
+    * @return Uma nova string contendo apenas os dígitos numéricos da string original.
+    */
     public String removeCaracteresEspeciais(String texto){
         return texto.replaceAll("[^0-9]+","");
     }
     
-    //verifica se o tamanho do cnpj está correto
+    /** Verifica se o tamanho do CNPJ fornecido está correto.
+    * 
+    * @param cnpj O CNPJ a ser verificado.
+    * @return true se o tamanho do CNPJ for igual a 14, indicando um CNPJ válido; false caso contrário.
+    */
     public boolean verficaCnpj(String cnpj){
         if(cnpj.length() != 14){
             System.out.println("CNPJ INVÁLIDO, TENTE NOVAMENTE: ");
@@ -85,7 +128,20 @@ public class DadosC {
     }
     
     
-    //adiciona o modelo de gestão
+    /**
+    * Solicita e adiciona o modelo de gestão utilizado no projeto.
+    * 
+    * Solicita ao usuário que insira a metodologia utilizada no projeto.
+    * Verifica se a string inserida é válida utilizando o método 'verificaString()'.
+    * Armazena a metodologia na instância de informações do projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'verificaString()' deve estar implementado para validar a string inserida.
+    * 
+    * Pós-condições:
+    * - O modelo de gestão utilizado no projeto é adicionado às informações do projeto.
+    */
     public void adicionarModeloGestao(){
         Scanner scan = new Scanner(System.in);
         
@@ -104,7 +160,20 @@ public class DadosC {
     }
     
     
-    //adiciona as atividades em uma única string
+    /**
+    * Solicita e cadastra as atividades/tecnologias utilizadas no projeto em uma única string.
+    * 
+    * Solicita ao usuário a quantidade de atividades/tecnologias utilizadas no projeto.
+    * Utiliza um loop para iterar sobre as atividades, chamando o método 'adicionarAtvdTecno()' para cada uma.
+    * Concatena as atividades em uma única string e armazena na instância de informações do projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'adicionarAtvdTecno()' deve estar implementado para obter e validar cada atividade/tecnologia.
+    * 
+    * Pós-condições:
+    * - As atividades/tecnologias utilizadas no projeto são cadastradas em uma única string e armazenadas nas informações do projeto.
+    */
     public void cadastrarAtvdTecnoProjeto(){
         Scanner scan = new Scanner(System.in);        
         
@@ -119,7 +188,22 @@ public class DadosC {
                 informacoes.setAtividadeTecnologia(adicionarAtvdTecno());           
         }
     }
-    //pega as atividades digitadas e retorna elas
+    
+    /**
+    * Solicita e retorna uma atividade/tecnologia digitada pelo usuário.
+    * 
+    * Solicita ao usuário que insira uma atividade/tecnologia.
+    * Verifica se a string inserida é válida utilizando o método 'verificaString()'.
+    * Retorna a atividade/tecnologia.
+    * 
+    * @return String da atividade ou tecnologia digitada
+    * 
+    * Pré-condições:
+    * - O método 'verificaString()' deve estar implementado para validar a string inserida.
+    * 
+    * Pós-condições:
+    * - Uma atividade/tecnologia válida é retornada.
+    */
     public String adicionarAtvdTecno(){
         Scanner scan = new Scanner(System.in);
         
@@ -135,7 +219,13 @@ public class DadosC {
         
         return atvdTecno;                
     }
-    //verifica se a String possui algum valor que não seja nulo ou vazio
+    
+    /**
+    * Verifica se a string fornecida não é nula ou vazia.
+    * 
+    * @param texto A string a ser verificada.
+    * @return true se a string não for nula e não estiver vazia; false caso contrário.
+    */
     public boolean verificaString(String texto){
         if( texto == null || texto.equals("") ){
             System.out.println("Digitação inválida, tente novamente");
@@ -145,7 +235,11 @@ public class DadosC {
     }
     
     
-    //salva o cnpj, modelo de gestão e atividades no banco de dados
+     /**
+    * Salva os dados gerais (CNPJ, modelo de gestão, nome do projeto e atividades) no banco de dados.
+    * 
+    * @param infosGerais Objeto contendo as informações gerais a serem salvas no banco de dados.
+    */
     public void salvarDadosGerais(DadosM infosGerais){
         try{
             bd.conexao();
@@ -160,7 +254,23 @@ public class DadosC {
     }
   
     
-    //métodod para pegar as informações da medicao e salvar elas no banco de dados
+    /**
+    * Registra o pagamento da medição associada a um projeto, atualizando a etapa completa, o valor pago e a satisfação da entrega.
+    * 
+    * Solicita ao usuário o nome do projeto, a etapa completa, o valor total a ser pago e a satisfação com a entrega.
+    * Calcula o valor pago considerando a satisfação com a entrega.
+    * Atualiza a etapa como completa e o valor da medição no banco de dados.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'valorPagoMedicao()' deve estar implementado para calcular o valor pago com base na satisfação.
+    * - O método 'salvarMedicao()' deve estar implementado para atualizar as informações no banco de dados.
+    * 
+    * Pós-condições:
+    * - A etapa do projeto é marcada como completa.
+    * - O valor da medição é calculado e atualizado no banco de dados.
+    * - Uma mensagem indicando o sucesso do processo é exibida no console.
+    */
     public void pagarMedicao(){
         Scanner scan = new Scanner(System.in);
         
@@ -189,7 +299,18 @@ public class DadosC {
         System.out.println("Medição salva com sucesso!!!");
 
     }
-    //função para retorna o valor pago na medicao, caso o usuário esteja ou não estja satisfeito com a entrega
+    
+    /**
+    * Calcula e retorna o valor pago na medição, considerando a satisfação do usuário com a entrega.
+    * Se o usuário estiver satisfeito ('S'), o valor pago é o valor total. Se estiver insatisfeito ('N'),
+    * solicita ao usuário o valor parcial desejado, com validação para garantir que esteja entre 1/3 e o valor total.
+    * Em caso de entrada inválida, o usuário é solicitado novamente até fornecer um valor válido.
+    * Se a satisfação não for 'S' ou 'N', continua solicitando ao usuário até obter uma resposta válida.
+    * 
+    * @param satisfacao A satisfação do usuário com a entrega ('S' para satisfeito, 'N' para insatisfeito).
+    * @param valorTotal O valor total a ser pago na medição.
+    * @return O valor pago, calculado com base na satisfação do usuário.
+    */
     public double valorPagoMedicao(char satisfacao, double valorTotal){
         Scanner scan = new Scanner(System.in);
         
@@ -220,7 +341,13 @@ public class DadosC {
                
         return valorPagoMedicao(satisfacao, valorTotal);
     }
-    //salva a medição no banco de dados
+    
+    /**
+    * Salva os dados da medição no banco de dados.
+    * 
+    * @param informacoes Objeto contendo as informações necessárias para a medição.
+    * @param valorTotal O valor total a ser pago na medição.
+    */
     public void salvarMedicao(DadosM informacoes, double valorTotal){
        try{
            bd.conexao();
@@ -236,8 +363,18 @@ public class DadosC {
        }
     }
     
-    //Utilizada para pedir o nome a quantidade de etapas do projeto para inserir as informações no cronograma
-    //e depois chama uma função para inserir os dados
+     /**
+    * Solicita o nome do projeto e a quantidade de etapas para inserir as informações no cronograma.
+    * Em seguida, chama uma função para inserir os dados no cronograma.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'inserirInformacoesCronograma()' deve estar implementado para inserir os dados no cronograma.
+    * 
+    * Pós-condições:
+    * - As informações sobre o cronograma do projeto são inseridas no banco de dados.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void cadastrarCronograma(){
         Scanner scan = new Scanner(System.in);
         try{
@@ -250,14 +387,30 @@ public class DadosC {
             for(int i = 0; i < quantidadeEtapas; i++ ){
                 inserirInformacoesCronograma(informacoes.getProjeto().getNomeProjeto(), i );
             }
-        //for com o nome da etapa
-        //for com o que será feito na etapa
-        //for com a data de inicio e fim da etapa
         }catch(Exception e){
             System.out.println("ERRO:" + e.getMessage());
         }
     }
-    //Pega as informações referente ao cronograma digitadas pelo usuário e depois chama uma função para salvar no banco de dados
+    
+    /**
+    * @param nomeProjeto O nome do projeto ao qual o cronograma está associado.
+    * @param numEtapa O número da etapa no cronograma.
+    * 
+    * Esta função solicita ao usuário as informações necessárias para cada etapa do cronograma,
+    * incluindo o nome, descrição, data de início e data de conclusão. As datas são validadas para garantir
+    * que a data de início seja anterior à data de conclusão. Após a coleta das informações, a função chama
+    * outra função para salvar esses dados no banco de dados.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * - O método 'converteStringParaData()' deve estar implementado para converter a entrada do usuário para o tipo LocalDate.
+    * - O método 'verificaDatasEtapa()' deve estar implementado para validar as datas da etapa.
+    * - O método 'salvarCronograma()' deve estar implementado para inserir as informações no banco de dados.
+    * 
+    * Pós-condições:
+    * - As informações sobre a etapa do cronograma são inseridas no banco de dados.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void inserirInformacoesCronograma(String nomeProjeto,int numEtapa){
         Scanner scan = new Scanner(System.in);
         try{        
@@ -296,7 +449,17 @@ public class DadosC {
             System.out.println("ERRO: " + e.getMessage());
         }
     }
-    //verifica se as datas de fim e inicio das etapas são válidas
+    
+    /**
+    * Verifica se as datas de início e fim das etapas são válidas.
+    * 
+    * @param dateInicio A data de início da etapa.
+    * @param dateFinal A data de conclusão da etapa.
+    * @return true se as datas são válidas, false caso contrário.
+    * 
+    * Esta função compara as datas de início e fim da etapa para garantir que a data de fim seja igual ou posterior
+    * à data de início. Caso as datas sejam inválidas, uma mensagem é exibida no console e a função retorna false.
+    */
     public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
         if( dateFinal.getYear() < dateInicio.getYear() ||  ( dateFinal.getYear() == dateInicio.getYear() && dateFinal.getMonthValue() < dateInicio.getMonthValue() ) ){
             System.out.println("Datas da etapa Inválidas");
@@ -305,7 +468,28 @@ public class DadosC {
         
         return true;
     }
-   //salva o cronograma no banco de dados
+    
+   /**
+    * Salva as informações do cronograma no banco de dados.
+    * 
+    * @param informacoes Objeto contendo informações relacionadas ao cronograma.
+    * @param nomeEtapa Nome da etapa no cronograma.
+    * @param descricaoEtapa Descrição do que será feito na etapa.
+    * @param dataInicio Data de início da etapa no cronograma.
+    * @param dataFinal Data de conclusão da etapa no cronograma.
+    * 
+    * Esta função realiza a conexão com o banco de dados, monta a consulta SQL para inserção das informações
+    * do cronograma e executa a consulta. As informações incluem o número da etapa, nome da etapa, descrição,
+    * data de início, data de conclusão e o nome do projeto associado. Em caso de erro, uma mensagem de erro
+    * é exibida no console.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+    * 
+    * Pós-condições:
+    * - As informações sobre a etapa do cronograma são inseridas no banco de dados.
+     * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void salvarCronograma(DadosM informacoes, String nomeEtapa, String descricaoEtapa, LocalDate dataInicio, LocalDate dataFinal){
        try{
            bd.conexao();
@@ -322,7 +506,23 @@ public class DadosC {
     }
     
     
-    //métodod para ajustar/mudar o cronograma. Pegar as informações do ajuste e salva no banco de dados
+    /**
+    * Ajusta o cronograma de um projeto, coletando informações sobre o ajuste e salvando no banco de dados.
+    * 
+    * Esta função interativa solicita ao usuário informações necessárias para ajustar uma etapa específica do cronograma,
+    * incluindo o nome do projeto, número da etapa, risco, impacto, motivo do ajuste e a nova data de conclusão da etapa.
+    * As informações são validadas, garantindo que o motivo de alteração tenha pelo menos 50 caracteres.
+    * Após a coleta das informações, a função chama outra função para salvar esses dados no banco de dados.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do projeto.
+     * - O método 'converteStringParaData()' deve estar implementado para converter a entrada do usuário para o tipo LocalDate.
+    * - O método 'salvarAjusteCronograma()' deve estar implementado para inserir as informações no banco de dados.
+    * 
+    * Pós-condições:
+    * - As informações sobre o ajuste no cronograma são inseridas no banco de dados.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void ajustarCronograma(){
         Scanner scan = new Scanner(System.in);
         
@@ -361,7 +561,16 @@ public class DadosC {
         
         System.out.println("Ajustes de cronograma salvo com sucesso!!!");
     }
-    //converte uma string que representa uma data para uma LocalDate
+    
+    /**
+    * Converte uma string que representa uma data para um objeto LocalDate.
+    * 
+    * @param dataStr A string contendo a representação da data no formato "dd/MM/yyyy".
+    * @return Um objeto LocalDate representando a data convertida.
+    * 
+    * Esta função utiliza um formato predefinido "dd/MM/yyyy" para converter a string da data em um objeto LocalDate.
+     * Em caso de erro, a função exibe uma mensagem de erro no console e retorna null.
+    */
     public LocalDate converteStringParaData(String dataStr){
         LocalDate data = null;
         
@@ -376,7 +585,24 @@ public class DadosC {
         
         return data;
     }
-    //salva os ajustes feitos no cronograma no banco de dados
+    
+    /**
+    * Salva os ajustes feitos no cronograma no banco de dados.
+    * 
+    * @param informacoes Objeto contendo informações sobre os ajustes no cronograma.
+    * 
+    * Esta função realiza a conexão com o banco de dados, monta a consulta SQL para inserção das informações
+    * dos ajustes no cronograma e executa a consulta. As informações incluem o número da etapa, motivo do ajuste,
+    * impacto, risco, nova data de conclusão e o nome do projeto associado. Em caso de erro, uma mensagem de erro
+    * é exibida no console.
+    * 
+    * Pré-condições:
+    * - A variável 'informacoes' deve ser acessível e conter informações do ajuste no cronograma.
+    * 
+    * Pós-condições:
+    * - As informações sobre o ajuste no cronograma são inseridas no banco de dados.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void salvarAjusteCronograma(DadosM informacoes){
          try{
            bd.conexao();
@@ -392,12 +618,42 @@ public class DadosC {
        }
     }
     
-    //não vai usar isso aqui no menu -> so para testar se está puxando os dados coretamente
+    /**
+    * Consulta as informações gerais de um projeto e exibe na console para teste.
+    * 
+    * @param nomeProjeto Nome do projeto para o qual as informações serão consultadas.
+    * 
+    * Esta função é destinada apenas para testes e consulta as informações gerais e medições de um projeto
+    * utilizando as funções 'resgatarInformacoesGerais' e 'resgatarMedicao'. As informações são exibidas no console.
+    * 
+    * Pré-condições:
+    * - As funções 'resgatarInformacoesGerais' e 'resgatarMedicao' devem estar implementadas e acessíveis.
+    * 
+    * Pós-condições:
+    * - As informações gerais e medições do projeto são exibidas no console.
+    */
     public void consultarInfomaçõesGerais(String nomeProjeto){
         resgatarInformaçõesGerais(nomeProjeto);
         resgatarMedicao(nomeProjeto); 
     }
     
+    /**
+    * Resgata e exibe as informações gerais de um projeto no console.
+    * 
+    * @param nomeProjeto Nome do projeto para o qual as informações serão resgatadas.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter as informações gerais (CNPJ, modelo de gestão,
+    * atividades/tecnologias) de um projeto específico. As informações são exibidas no console.
+    * 
+    * Pré-condições:
+    * - O método 'bd.conexao()' deve ser implementado para conectar ao banco de dados.
+    * - O método 'bd.getStatement()' deve ser implementado para obter um objeto Statement.
+    * - A variável 'bd' deve ser acessível e estar corretamente configurada.
+    * 
+    * Pós-condições:
+    * - As informações gerais do projeto são exibidas no console.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void resgatarInformaçõesGerais(String nomeProjeto){
           try{
            bd.conexao();
@@ -422,6 +678,23 @@ public class DadosC {
     }
     
     
+    /**
+    * Resgata e exibe a quantidade de medições pagas de um projeto no console.
+    * 
+    * @param nomeProjeto Nome do projeto para o qual a informação será resgatada.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter a quantidade de medições pagas de um projeto específico.
+    * A quantidade é exibida no console.
+    * 
+    * Pré-condições:
+    * - O método 'bd.conexao()' deve ser implementado para conectar ao banco de dados.
+    * - O método 'bd.getStatement()' deve ser implementado para obter um objeto Statement.
+    * - A variável 'bd' deve ser acessível e estar corretamente configurada.
+    * 
+    * Pós-condições:
+    * - A quantidade de medições pagas do projeto é exibida no console.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void resgatarMedicao(String nomeProjeto){
         try{
            bd.conexao();
@@ -442,6 +715,24 @@ public class DadosC {
     
 
     
+    /**
+    * Resgata e exibe as informações do cronograma de um projeto no console.
+    * 
+    * @param nomeProjeto Nome do projeto para o qual as informações do cronograma serão resgatadas.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter as informações do cronograma de um projeto específico.
+    * As informações, incluindo número da etapa, nome da etapa, descrição, data de início e data de finalização, são exibidas
+    * no console em um formato tabular.
+    * 
+    * Pré-condições:
+    * - O método 'bd.conexao()' deve ser implementado para conectar ao banco de dados.
+    * - O método 'bd.getStatement()' deve ser implementado para obter um objeto Statement.
+    * - A variável 'bd' deve ser acessível e estar corretamente configurada.
+    * 
+    * Pós-condições:
+    * - As informações do cronograma do projeto são exibidas no console.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+     */
     public void resgatarCronograma(String nomeProjeto){
         try{
            bd.conexao();
@@ -466,6 +757,24 @@ public class DadosC {
     }
     
     
+    /**
+    * Resgata e exibe as informações de ajustes no cronograma de um projeto no console.
+    * 
+    * @param nomeProjeto Nome do projeto para o qual as informações de ajustes serão resgatadas.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter as informações de ajustes no cronograma de um projeto específico.
+    * As informações, incluindo número da etapa alterada, motivo, impactos, riscos e nova data de finalização, são exibidas
+    * no console em um formato tabular.
+    * 
+    * Pré-condições:
+    * - O método 'bd.conexao()' deve ser implementado para conectar ao banco de dados.
+    * - O método 'bd.getStatement()' deve ser implementado para obter um objeto Statement.
+    * - A variável 'bd' deve ser acessível e estar corretamente configurada.
+    * 
+    * Pós-condições:
+    * - As informações de ajustes no cronograma do projeto são exibidas no console.
+    * - Em caso de erro, uma mensagem de erro é exibida no console.
+    */
     public void resgatarAjusteCronograma(String nomeProjeto){
         try{
            bd.conexao();

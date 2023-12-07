@@ -10,8 +10,8 @@ import controle.BancoDados;
 import java.sql.ResultSet;
 
 /**
- *
- * @author vinim
+ * A classe ProjetoC faz parte de um sistema de gestão de projetos.
+ * Ela gerencia informações do projeto, equipes associadas e stakeholders.
  */
 public class ProjetoC {
     
@@ -22,32 +22,122 @@ public class ProjetoC {
     private BancoDados bd = new BancoDados();  
     private ResultSet rSet;
 
+    /**
+    * Retorna a equipe de gerência associada ao projeto.
+    * 
+    * @return Uma instância da classe EquipeProjetoC representando a equipe de gerência do projeto.
+    * 
+    * Esta função retorna a equipe de gerência associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoGerencia' deve ser declarada e inicializada corretamente.
+    * 
+    * Pós-condições:
+    * - A equipe de gerência do projeto é retornada como uma instância da classe EquipeProjetoC.
+    */
     public EquipeProjetoC getEquipeProjetoGerencia() {
         return equipeProjetoGerencia;
     }
 
+    /**
+    * Define a equipe de gerência associada ao projeto.
+    * 
+    * @param equipeProjetoGerencia Uma instância da classe EquipeProjetoC representando a equipe de gerência do projeto.
+    * 
+    * Esta função define a equipe de gerência associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoGerencia' deve ser declarada antes de chamar esta função.
+    * 
+    * Pós-condições:
+    * - A equipe de gerência do projeto é definida com base na instância fornecida como argumento.
+    */
     public void setEquipeProjetoGerencia(EquipeProjetoC equipeProjetoGerencia) {
         this.equipeProjetoGerencia = equipeProjetoGerencia;
     }
 
+     /**
+    * Retorna a equipe de execução associada ao projeto.
+    * 
+    * @return Uma instância da classe EquipeExecC representando a equipe de execução do projeto.
+    * 
+    * Esta função retorna a equipe de execução associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoExec' deve ser declarada e inicializada corretamente.
+    * 
+    * Pós-condições:
+    * - A equipe de execução do projeto é retornada como uma instância da classe EquipeExecC.
+    */
     public EquipeExecC getEquipeProjetoExec() {
         return equipeProjetoExec;
     }
 
+    /**
+    * Define a equipe de execução associada ao projeto.
+    * 
+    * @param equipeProjetoExec Uma instância da classe EquipeExecC representando a equipe de execução do projeto.
+    * 
+    * Esta função define a equipe de execução associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoExec' deve ser declarada antes de chamar esta função.
+    * 
+    * Pós-condições:
+    * - A equipe de execução do projeto é definida com base na instância fornecida como argumento.
+    */
     public void setEquipeProjetoExec(EquipeExecC equipeProjetoExec) {
         this.equipeProjetoExec = equipeProjetoExec;
     }
 
+    /**
+    * Retorna a equipe de terceirizados associada ao projeto.
+    * 
+    * @return Uma instância da classe EquipeTerceirizadoC representando a equipe de terceirizados do projeto.
+    * 
+    * Esta função retorna a equipe de terceirizados associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoTerc' deve ser declarada e inicializada corretamente.
+    * 
+    * Pós-condições:
+    * - A equipe de terceirizados do projeto é retornada como uma instância da classe EquipeTerceirizadoC.
+    */
     public EquipeTerceirizadoC getEquipeProjetoTerc() {
         return equipeProjetoTerc;
     }
 
+    /**
+    * Define a equipe de terceirizados associada ao projeto.
+    * 
+    * @param equipeProjetoTerc Uma instância da classe EquipeTerceirizadoC representando a equipe de terceirizados do projeto.
+    * 
+    * Esta função define a equipe de terceirizados associada a um projeto.
+    * 
+    * Pré-condições:
+    * - A variável 'equipeProjetoTerc' deve ser declarada antes de chamar esta função.
+    * 
+    * Pós-condições:
+    * - A equipe de terceirizados do projeto é definida com base na instância fornecida como argumento.
+    */
     public void setEquipeProjetoTerc(EquipeTerceirizadoC equipeProjetoTerc) {
         this.equipeProjetoTerc = equipeProjetoTerc;
     }
     
     
-   //cadastra um projeto, pegando todas as informaçõe do usuário e salva no banco de dados
+   /**
+    * Esta função solicita ao usuário informações sobre o projeto, como nome, escopo, custo orçado,
+    * custo aprovado e quantidade de stakeholders. Posteriormente, salva essas informações no banco de dados
+    * e adiciona os stakeholders associados ao projeto.
+    * 
+    * Pré-condições:
+    * - A classe ProjetoM deve ser instanciada antes de chamar esta função.
+    * 
+    * Pós-condições:
+    * - As informações do projeto são salvas no banco de dados.
+    * - Os stakeholders associados ao projeto são cadastrados no banco de dados.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
     public void cadastrarProjeto(){
         projetoInfo = new ProjetoM();
        
@@ -78,7 +168,21 @@ public class ProjetoC {
             System.out.println("ERRO AO SALVAR DADOS: " + e.getMessage());
         }
    }
-   //função para adicionar vários stakeholder e salvar eles no banco de dados em duas tabelas diferentes
+    
+   /**
+    * @param projeto Uma instância da classe ProjetoM representando o projeto ao qual os stakeholders serão adicionados.
+    * @param qtde A quantidade de stakeholders a serem adicionados ao projeto.
+    * 
+    * Esta função solicita ao usuário o nome de cada stakeholder e os adiciona ao projeto.
+    * Em seguida, salva esses stakeholders em duas tabelas diferentes no banco de dados.
+    * 
+    * Pré-condições:
+    * - A instância de ProjetoM 'projeto' deve ser corretamente inicializada.
+    * 
+    * Pós-condições:
+    * - Os stakeholders são adicionados ao projeto.
+    * - Os stakeholders são salvos em duas tabelas diferentes no banco de dados.
+    */
    public void adicionarStakeholders(ProjetoM projeto, int qtde){
         Scanner scan = new Scanner(System.in);
       
@@ -90,7 +194,23 @@ public class ProjetoC {
             salvarProjetoStakeholders(projeto);
         }
    } 
-   //salva o projeto no banco de dados
+   
+   /**
+    * Salva as informações do projeto no banco de dados.
+    * 
+    * @param projeto Uma instância da classe ProjetoM representando o projeto a ser salvo.
+    * @param qtde A quantidade de stakeholders associados ao projeto.
+    * 
+    * Esta função salva as informações do projeto, como nome, escopo, quantidade de stakeholders, custo orçado e custo aprovado,
+    * em uma tabela no banco de dados.
+    * 
+    * Pré-condições:
+    * - A instância de ProjetoM 'projeto' deve conter as informações do projeto.
+    * 
+    * Pós-condições:
+    * - As informações do projeto são salvas no banco de dados.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public void salvarProjeto(ProjetoM projeto, int qtde){
        try{
            bd.conexao();
@@ -104,7 +224,19 @@ public class ProjetoC {
            System.out.println("ERRO AO SALVAR PROJETO: " + e.getMessage());
        }
    }
-   //salva os stakeholders no banco de dados 
+   
+   /**
+    * @param projeto Uma instância da classe ProjetoM representando o projeto associado ao stakeholder.
+    * 
+    * Esta função salva o nome do stakeholder em uma tabela no banco de dados.
+    * 
+    * Pré-condições:
+    * - A instância de ProjetoM 'projeto' deve conter o nome do stakeholder.
+    * 
+    * Pós-condições:
+    * - O stakeholder é salvo no banco de dados.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public void salvarStakeholders(ProjetoM projeto){
        try{
            bd.conexao();
@@ -119,7 +251,19 @@ public class ProjetoC {
            e.printStackTrace();
        }
    }
-   //salva os stakeholder e os projetos em que eles estão participando em uma única tabela
+   
+   /**
+    * @param projeto Uma instância da classe ProjetoM representando o projeto associado ao stakeholder.
+    * 
+    * Esta função salva a associação entre o stakeholder e o projeto em uma tabela no banco de dados.
+    * 
+    * Pré-condições:
+    * - A instância de ProjetoM 'projeto' deve conter o nome do stakeholder e o nome do projeto.
+    * 
+    * Pós-condições:
+    * - A associação entre o stakeholder e o projeto é salva no banco de dados.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public void salvarProjetoStakeholders(ProjetoM projeto){
        int id  = pegarIdStakeholder(projeto.getStakeholders());
        
@@ -136,7 +280,21 @@ public class ProjetoC {
            e.printStackTrace();
        }
    }
-   //pega e retorna o id do stakeholder através do nome dele
+   
+   /**
+    * @param nomeStakeholder O nome do stakeholder para o qual deseja obter o ID.
+    * @return O ID do stakeholder, ou 0 se o stakeholder não for encontrado.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter o ID de um stakeholder com base no seu nome.
+    * 
+    * Pré-condições:
+    * - O parâmetro 'nomeStakeholder' deve conter o nome do stakeholder.
+    * 
+    * Pós-condições:
+    * - O ID do stakeholder é retornado.
+    * - Se o stakeholder não for encontrado, é retornado 0.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public int pegarIdStakeholder(String nomeStakeholder){
       int id = 0;
        try{
@@ -157,12 +315,38 @@ public class ProjetoC {
    } 
    
    
-   //não vai usar isso aqui no menu -> so para testar se está puxando os dados coretamente
+    /**
+    * @param nomeProjeto O nome do projeto para o qual deseja consultar informações.
+    * 
+    * Esta função realiza consultas no banco de dados para obter informações específicas de um projeto,
+    * como detalhes do projeto e códigos dos stakeholders associados a ele.
+    * 
+    * Pré-condições:
+    * - O parâmetro 'nomeProjeto' deve conter o nome do projeto.
+    * 
+    * Pós-condições:
+    * - As informações do projeto, como detalhes do projeto e códigos dos stakeholders, são exibidas.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public void consultarInformaçõesProjeto(String nomeProjeto){
        resgatarInfoProjeto(nomeProjeto);
        resgatarCodStakeholders(nomeProjeto);
    }
    
+   /**
+    * @param nomeProjeto O nome do projeto para o qual deseja resgatar informações.
+    * 
+    * Esta função realiza uma consulta no banco de dados para obter informações específicas de um projeto,
+    * como nome, escopo, quantidade de stakeholders, custo orçado e custo aprovado.
+    * 
+    * Pré-condições:
+    * - O parâmetro 'nomeProjeto' deve conter o nome do projeto.
+    * 
+    * Pós-condições:
+    * - As informações do projeto são exibidas.
+    * - Se o projeto não for encontrado, uma mensagem informando isso é exibida.
+    * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+    */
    public void resgatarInfoProjeto(String nomeProjeto){
         try{
            bd.conexao();
@@ -187,6 +371,22 @@ public class ProjetoC {
        }
    }
    
+   /**
+   * Resgata os stakeholders associados a um projeto no banco de dados.
+   * 
+   * @param nomeProjeto O nome do projeto para o qual deseja resgatar os stakeholders.
+   * 
+   * Esta função realiza uma consulta no banco de dados para obter os stakeholders associados a um projeto,
+   * exibindo o nome de cada stakeholder.
+   * 
+   * Pré-condições:
+   * - O parâmetro 'nomeProjeto' deve conter o nome do projeto.
+   * 
+   * Pós-condições:
+   * - Os stakeholders associados ao projeto são exibidos.
+   * - Se não houver stakeholders associados ou o projeto não for encontrado, uma mensagem informando isso é exibida.
+   * - Caso ocorra algum erro durante o processo, uma mensagem de erro é exibida.
+   */
    public void resgatarCodStakeholders(String nomeProjeto){
         try{
            bd.conexao();

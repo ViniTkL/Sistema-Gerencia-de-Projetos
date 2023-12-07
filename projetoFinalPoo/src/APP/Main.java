@@ -2,19 +2,14 @@ package APP;
 
 import Visualizacao.Menu;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-
-/**
- *
- * @author vinim
+/**A seguinte classe é responsável por compilar e rodas as funções de todas as outras classes do projeto
+ * 
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
+    /**Classe principal que executará as rotinas das outras classes através da objeto da classe Menu;
+     * 
+     * @param args argumentos passados pelo usuário em formato de input
      */
     public static void main(String[] args) {
         Menu menus = new Menu();

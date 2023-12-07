@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
- * @author rf5974
+ * A seguinte classe é responsável por estabelecer e manter a conexão com o banco de dados no ambiente Java.
+ * 
  */
 public class BancoDados {
       // Objeto de COnexÃ£o com BD
@@ -19,6 +19,9 @@ public class BancoDados {
     // Objeto com dados SQL
     private ResultSet res;
     
+    /**
+     * Este método estabelece a conexão com o banco de dados utilizando as credenciais fornecidas diretamente no método.
+     */
     public void conexao(){
        try
        {
@@ -39,14 +42,24 @@ public class BancoDados {
        }
     }
     
+    /**
+     * @return Connection
+     */
      public Connection getConnection(){
         return conn;
     }
     
+     /**
+      * 
+      * @return Statement
+      */
     public Statement getStatement(){
         return stmt;
     }
     
+    /**
+     * Este método fecha a conexao com banco de dados
+     */
     public void desconecta(){
         if(conn != null){
             try{

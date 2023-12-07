@@ -3,11 +3,17 @@ package Visualizacao;
 import Controle.DadosC;
 import java.util.Scanner;
 
+/**
+ * A classe a seguir é o menu para um sistema de gerenciamento de projetos.
+ * Ela oferece opções para o gerenciamento, atualização e consulta de informações de projetos.
+ */
 
 public class Menu {
     DadosC dadosGerais = new DadosC();
  
-
+/**
+* Exibe o menu principal para o sistema de gerenciamento de projetos.
+*/
 public void menuGeral(){
     Scanner scan = new Scanner(System.in);
                 
@@ -37,6 +43,9 @@ public void menuGeral(){
         }
 }
 
+/**
+* Exibe o menu para cadastro de informações de projeto e trata a entrada do usuário.
+*/
 public void menuCadastrar(){
     Scanner scan = new Scanner(System.in);
                 
@@ -74,6 +83,9 @@ public void menuCadastrar(){
         }
 }
 
+/**
+*Exibe o menu para escolher o tipo de equipe para cadastrar membros e trata a entrada do usuário.
+*/
 public void escolherTipoEquipeCadastrar(){
         Scanner scan = new Scanner(System.in);
         
@@ -110,6 +122,9 @@ public void escolherTipoEquipeCadastrar(){
         }
 }
 
+/**
+* Exibe o menu para atualização de informações de projeto e trata a entrada do usuário.
+*/
 public void menuAtualizar(){
     Scanner scan = new Scanner(System.in);
                 
@@ -133,6 +148,9 @@ public void menuAtualizar(){
         }
 }
 
+/**
+* Exibe o menu para consulta de projeto e trata a entrada do usuário.
+*/
 public void menuConsulta(){
     Scanner scan = new Scanner(System.in);
         

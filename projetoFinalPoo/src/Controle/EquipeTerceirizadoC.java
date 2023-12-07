@@ -11,13 +11,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
- *
- * @author anton
+ * A classe EquipeTerceirizadoC é uma extensão da classe EquipeC, dedicada a operações específicas relacionadas à equipe de terceirizados de um projeto. 
+ * Ela inclui métodos para cadastrar integrantes terceirizados, adicionar informações sobre eles, cadastrar 
+ * responsáveis por etapas e salvar essas informações no banco de dados.
+ * 
  */
 public class EquipeTerceirizadoC extends EquipeC{
     private BancoDados bd = new BancoDados();
     EquipeTerceirizadoM equipeTerc = new EquipeTerceirizadoM(" ", " ", " ", " ", null, null, 0);
     
+     /**
+     * Cadastra integrantes terceirizados, solicitando a quantidade e adicionando informações sobre cada um. Os dados são salvos no banco de dados.
+     * 
+     * @param idEquipe ID da equipe.
+    */
     @Override
         public void cadastrarIntegrante(int idEquipe){
             Scanner leitor = new Scanner(System.in);
@@ -32,6 +39,14 @@ public class EquipeTerceirizadoC extends EquipeC{
             }
         }
         
+        /**
+         * Adiciona informações sobre os integrantes terceirizados da equipe, solicitando o nome, a empresa e o cargo. 
+         * Além disso, pergunta se o integrante é responsável por alguma etapa e, caso afirmativo, cadastra essas informações. 
+         * Todas as informações são salvas no banco de dados.
+         * 
+         * @param qtde Quantidade de integrantes terceirizados.
+         * @param id ID da equipe.
+        */
         @Override
         public void adicionarIntegrantes(int qtde, int id){
             Scanner leitor = new Scanner(System.in);
@@ -66,6 +81,11 @@ public class EquipeTerceirizadoC extends EquipeC{
             }
         }
 
+         /**
+         * Cadastra os responsáveis por etapas, coletando informações e salvando-as.
+         * 
+         * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('S' ou 'N').
+        */
         @Override
         public void cadastrarResponsaveisEtapa(char eResponsavelEtapa){
             Scanner leitor = new Scanner(System.in);
@@ -109,7 +129,13 @@ public class EquipeTerceirizadoC extends EquipeC{
             }
         }
       
-        //verifica se as datas de inicio e fim da etapa são válidas
+        /**
+          * Verifica se as datas de início e fim da etapa são válidas.
+          * 
+          * @param dateInicio Data de início da etapa.
+          * @param dateFinal Data de fim da etapa.
+          * @return true se as datas são válidas, false caso contrário.
+         */
         public boolean verificaDatasEtapa(LocalDate dateInicio, LocalDate dateFinal){
             if( dateFinal.getYear() < dateInicio.getYear() ||  ( dateFinal.getYear() == dateInicio.getYear() && dateFinal.getMonthValue() < dateInicio.getMonthValue() ) ){
                 System.out.println("Datas da etapa Inválidas");
@@ -119,7 +145,12 @@ public class EquipeTerceirizadoC extends EquipeC{
             return true;
         }
         
-        //converte uma String que representa uma data para uma LocalDate
+         /**
+          * Converte uma String que representa uma data para um objeto LocalDate.
+          * 
+          * @param dataStr String representando a data.
+          * @return Objeto LocalDate.
+         */
         public LocalDate converteStringParaData(String dataStr){
            LocalDate data = null;
 
@@ -134,7 +165,13 @@ public class EquipeTerceirizadoC extends EquipeC{
            return data;
         }
     
-        //salva os integrantes responsáveis por etapa no banco de dados
+     /**
+     * Salva os integrantes responsáveis por etapas no banco de dados.
+     * 
+     * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('S').
+     * @param equipe Instância da classe EquipeTerceirizadoM contendo informações do integrante.
+     * @param cargo Cargo do integrante terceirizado.
+    */
     @Override
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeTerceirizadoM equipe, String cargo){
         try{
@@ -151,7 +188,14 @@ public class EquipeTerceirizadoC extends EquipeC{
     
     }
     
-    //salva os integrantes NÃO responsáveis por etapa no banco de dados
+   /**
+     * Salva os integrantes não responsáveis por etapa no banco de dados.
+     * 
+     * @param eResponsavelEtapa Indica se o integrante é responsável por uma etapa ('N').
+     * @param equipe Instância da classe EquipeTerceirizadoM contendo informações do integrante.
+     * @param dateNull String representando uma data nula.
+     * @param cargo Cargo do integrante terceirizado.
+    */
     public void salvarIntegrantes(char eResponsavelEtapa, EquipeTerceirizadoM equipe, String dateNull, String cargo){
         try{
            bd.conexao();
@@ -167,7 +211,12 @@ public class EquipeTerceirizadoC extends EquipeC{
     
     }
     
-    //salva o nome do integrante e o id da equipe que ele faz parte no banco de dados
+     /**
+     * Salva o nome do integrante e o ID da equipe à qual ele pertence no banco de dados.
+     * 
+     * @param id ID da equipe.
+     * @param nomeIntegrante Nome do integrante.
+    */
     @Override
     public void salvarEquipeIntegrante(int id, String nomeIntegrante){
         try{
